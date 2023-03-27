@@ -1,4 +1,4 @@
-package com.cxoip.yunchu.ui.theme
+package com.cxoip.yunchu.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

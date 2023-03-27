@@ -3,6 +3,34 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
+val versionNamePrefix = "1.0.0"
+
+val gitCommitCount by lazy {
+    "git rev-list --count HEAD".runCommand().trim().toInt()
+}
+
+val gitCommitId by lazy {
+    "git rev-parse --short HEAD".runCommand().trim()
+}
+
+val appVersionName by lazy {
+    "${versionNamePrefix}.${gitCommitId}"
+}
+
+val appVersionCode by lazy {
+    gitCommitCount
+}
+
+fun String.runCommand(): String {
+    val parts = this.split("\\s".toRegex())
+    val processBuilder = ProcessBuilder(*parts.toTypedArray())
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+        .start()
+    processBuilder.waitFor()
+    return processBuilder.inputStream.bufferedReader().readText()
+}
+
 android {
     namespace = "com.cxoip.yunchu"
     compileSdk = 33
@@ -11,8 +39,8 @@ android {
         applicationId = "com.cxoip.yunchu"
         minSdk = 21
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,11 +50,15 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            delete("build/outputs/profiling/baseline.prof")
+            delete("build/outputs/profiling/baseline.profm")
         }
     }
 
@@ -52,11 +84,15 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.lifecycle.viewmodel.compose)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
