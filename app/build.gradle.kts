@@ -35,6 +35,19 @@ android {
     namespace = "com.cxoip.yunchu"
     compileSdk = 33
 
+    signingConfigs {
+        create("general") {
+            storeFile = file("../debug.jks")
+            storePassword = "123456"
+            keyAlias = "debug"
+            keyPassword = "123456"
+            this.enableV1Signing = true
+            this.enableV2Signing = true
+            this.enableV3Signing = true
+            this.enableV4Signing = true
+        }
+    }
+
     defaultConfig {
         applicationId = "com.cxoip.yunchu"
         minSdk = 21
@@ -49,10 +62,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("general")
+        }
         release {
             isDebuggable = false
             isShrinkResources = true
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("general")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -78,6 +95,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
+
+    packagingOptions.resources.excludes.add("DebugProbesKt.bin")
 }
 
 dependencies {
