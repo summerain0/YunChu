@@ -12,4 +12,5 @@
     <string name="sign_in_or_create_an_account">登录或创建一个新账号</string>
     <string name="account_is_empty">账号为空</string>
     <string name="app_crash">应用崩溃</string>
+    <string name="reboot">重启</string>
 </resources>
