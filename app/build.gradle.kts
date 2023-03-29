@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
-val versionNamePrefix = "1.0.0"
+val versionNamePrefix = "2.0.0"
 
 val gitCommitCount by lazy {
     "git rev-list --count HEAD".runCommand().trim().toInt()
@@ -104,6 +104,7 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.splashscreen.compose)
     implementation(libs.accompanist.navigation.animation)
 
     implementation(platform(libs.sora.editor.bom))
