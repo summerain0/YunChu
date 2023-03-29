@@ -1,4 +1,4 @@
-package com.cxoip.yunchu.component
+package com.cxoip.yunchu.component.textfield
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,14 +14,14 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.state.AccountState
+import com.cxoip.yunchu.state.EmailState
 import com.cxoip.yunchu.state.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountTextField(
-    label: String = stringResource(id = R.string.username_or_email),
-    accountState: TextFieldState = remember { AccountState() },
+fun EmailTextField(
+    label: String = stringResource(id = R.string.email),
+    emailState: TextFieldState = remember { EmailState() },
     imeAction: ImeAction = ImeAction.Next,
     onImeAction: () -> Unit = {}
 ) {
@@ -32,22 +32,22 @@ fun AccountTextField(
                 style = MaterialTheme.typography.bodyMedium,
             )
         },
-        value = accountState.text,
+        value = emailState.text,
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged {
-                accountState.onFocusChange(it.isFocused)
+                emailState.onFocusChange(it.isFocused)
                 if (!it.isFocused) {
-                    accountState.enableShowErrors()
+                    emailState.enableShowErrors()
                 }
             },
         textStyle = MaterialTheme.typography.bodyMedium,
-        isError = accountState.showErrors(),
+        isError = emailState.showErrors(),
         onValueChange = {
-            accountState.text = it
+            emailState.text = it
         },
         supportingText = {
-            accountState.getError()?.let { error -> TextFieldError(textError = error) }
+            emailState.getError()?.let { error -> TextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = imeAction

@@ -28,8 +28,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.component.AccountTextField
-import com.cxoip.yunchu.component.PasswordTextField
+import com.cxoip.yunchu.component.textfield.AccountTextField
+import com.cxoip.yunchu.component.textfield.PasswordTextField
 import com.cxoip.yunchu.state.AccountState
 import com.cxoip.yunchu.state.AccountStateSaver
 import com.cxoip.yunchu.state.PasswordState
@@ -38,7 +38,7 @@ import com.cxoip.yunchu.theme.YunChuTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
-    account: String,
+    account: String?,
     onNavUpHandler: () -> Unit
 ) {
     Scaffold(

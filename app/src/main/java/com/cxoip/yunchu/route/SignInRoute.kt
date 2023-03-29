@@ -5,10 +5,11 @@ import com.cxoip.yunchu.ui.auth.SignInScreen
 
 @Composable
 fun SignInRoute(
+    account: String?,
     onNavUpHandler: () -> Unit
 ) {
     SignInScreen(
-        account = "",
+        account = account,
         onNavUpHandler = onNavUpHandler
     )
 }

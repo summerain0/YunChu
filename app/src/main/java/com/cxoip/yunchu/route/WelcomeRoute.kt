@@ -8,12 +8,12 @@ import com.cxoip.yunchu.viewmodel.WelcomeViewModelFactory
 
 @Composable
 fun WelcomeRoute(
-    onSignInHandler: () -> Unit,
-    onSignUpHandler: () -> Unit
+    onNavigationToSignIn: (account: String?) -> Unit,
+    onNavigationToSignUp: () -> Unit
 ) {
     val welcomeViewModel: WelcomeViewModel = viewModel(factory = WelcomeViewModelFactory())
     WelcomeScreen(
-        onSignInHandler = onSignInHandler,
-        onSignUpHandler = onSignUpHandler
+        onNavigationToSignIn = onNavigationToSignIn,
+        onNavigationToSignUp = onNavigationToSignUp
     )
 }

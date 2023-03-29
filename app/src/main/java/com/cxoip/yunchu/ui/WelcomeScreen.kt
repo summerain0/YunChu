@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.component.AccountTextField
+import com.cxoip.yunchu.component.textfield.AccountTextField
 import com.cxoip.yunchu.state.AccountState
 import com.cxoip.yunchu.state.AccountStateSaver
 import com.cxoip.yunchu.theme.YunChuTheme
@@ -38,8 +38,8 @@ import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 
 @Composable
 fun WelcomeScreen(
-    onSignInHandler: () -> Unit,
-    onSignUpHandler: () -> Unit
+    onNavigationToSignIn: (account: String?) -> Unit,
+    onNavigationToSignUp: () -> Unit
 ) {
     // 是否展示顶部横幅
     var showBranding by remember { mutableStateOf(true) }
@@ -75,8 +75,8 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
                 onFocusChange = { focused -> showBranding = !focused },
-                onSignInHandler = onSignInHandler,
-                onSignUpHandler = onSignUpHandler
+                onNavigationToSignIn = onNavigationToSignIn,
+                onNavigationToSignUp = onNavigationToSignUp
             )
         }
     }
@@ -97,8 +97,8 @@ private fun Logo(
 private fun SignInCreateAccount(
     modifier: Modifier = Modifier,
     onFocusChange: (Boolean) -> Unit,
-    onSignInHandler: () -> Unit,
-    onSignUpHandler: () -> Unit
+    onNavigationToSignIn: (account: String?) -> Unit,
+    onNavigationToSignUp: () -> Unit
 ) {
     val accountState by rememberSaveable(stateSaver = AccountStateSaver) {
         mutableStateOf(AccountState(""))
@@ -119,8 +119,8 @@ private fun SignInCreateAccount(
         )
         onFocusChange(accountState.isFocused)
         Button(
-            enabled = accountState.text.isNotBlank(),
-            onClick = onSignInHandler,
+            enabled = accountState.isValid,
+            onClick = { onNavigationToSignIn(accountState.text) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 28.dp, bottom = 3.dp)
@@ -130,7 +130,7 @@ private fun SignInCreateAccount(
                 style = MaterialTheme.typography.titleSmall
             )
         }
-        OrSignUp(onSignUp = onSignUpHandler)
+        OrSignUp(onNavigationToSignUp = onNavigationToSignUp)
     }
 }
 
@@ -139,7 +139,7 @@ private fun SignInCreateAccount(
  */
 @Composable
 fun OrSignUp(
-    onSignUp: () -> Unit,
+    onNavigationToSignUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -153,7 +153,7 @@ fun OrSignUp(
             modifier = Modifier.paddingFromBaseline(top = 25.dp)
         )
         OutlinedButton(
-            onClick = onSignUp,
+            onClick = onNavigationToSignUp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp, bottom = 24.dp),
