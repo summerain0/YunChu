@@ -1,6 +1,7 @@
 package com.cxoip.yunchu
 
 import android.app.Application
+import com.cxoip.yunchu.util.CrashHandler
 
 class MyApplication : Application() {
     companion object {
@@ -12,5 +13,6 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        CrashHandler.instance.init(instance)
     }
 }

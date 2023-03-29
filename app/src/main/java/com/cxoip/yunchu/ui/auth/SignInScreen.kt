@@ -69,6 +69,9 @@ fun SignInScreen(
             item {
                 Spacer(modifier = Modifier.height(44.dp))
 
+                val a:String? = null
+                a!!.plus("123")
+
                 // 中间的账号密码输入框
                 Box(modifier = Modifier.padding(20.dp)) {
                     Column {

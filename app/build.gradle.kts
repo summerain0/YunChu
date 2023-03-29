@@ -43,8 +43,6 @@ android {
             keyPassword = "123456"
             this.enableV1Signing = true
             this.enableV2Signing = true
-            this.enableV3Signing = true
-            this.enableV4Signing = true
         }
     }
 
@@ -97,6 +95,7 @@ android {
     }
 
     packagingOptions.resources.excludes.add("DebugProbesKt.bin")
+    packagingOptions.resources.excludes.add("kotlin-tooling-metadata.json")
 }
 
 dependencies {
@@ -106,6 +105,9 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.accompanist.navigation.animation)
+
+    implementation(platform(libs.sora.editor.bom))
+    implementation(libs.sora.editor)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
