@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -16,13 +17,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.cxoip.yunchu.state.PasswordState
 import com.cxoip.yunchu.state.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
     label: String,
-    passwordState: TextFieldState,
+    passwordState: TextFieldState = remember { PasswordState() },
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
     onImeAction: () -> Unit = {}

@@ -240,14 +240,14 @@ fun OrSignUp(
             onClick = onNavigationToSignUp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp, bottom = 8.dp),
+                .padding(top = 20.dp, bottom = 12.dp),
         ) {
             Text(text = stringResource(id = R.string.sign_up))
         }
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun WelcomeScreenPreview() {
     YunChuTheme {

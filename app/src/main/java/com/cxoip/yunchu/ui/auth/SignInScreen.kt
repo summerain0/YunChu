@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,18 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.component.textfield.AccountTextField
-import com.cxoip.yunchu.component.textfield.PasswordTextField
-import com.cxoip.yunchu.state.AccountState
-import com.cxoip.yunchu.state.AccountStateSaver
-import com.cxoip.yunchu.state.PasswordState
 import com.cxoip.yunchu.theme.YunChuTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,34 +54,35 @@ fun SignInScreen(
                 }
             )
         }
-    ) {
-        val accountState by rememberSaveable(stateSaver = AccountStateSaver) {
-            mutableStateOf(AccountState(account))
-        }
-        val passwordState = remember { PasswordState() }
-
+    ) { paddingValues ->
         LazyColumn(
-            contentPadding = it
+            contentPadding = paddingValues
         ) {
             item {
+                var userAccount by remember { mutableStateOf(account ?: "") }
+                var userPassword by remember { mutableStateOf("") }
+
                 Spacer(modifier = Modifier.height(44.dp))
 
                 // 中间的账号密码输入框
                 Box(modifier = Modifier.padding(20.dp)) {
                     Column {
-                        AccountTextField(
-                            label = stringResource(id = R.string.username_or_email),
-                            accountState = accountState,
-                            imeAction = ImeAction.Done
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = userAccount,
+                            onValueChange = { userAccount = it },
+                            label = { Text(text = stringResource(id = R.string.username_or_email)) },
+                            maxLines = 1
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        PasswordTextField(
-                            label = stringResource(id = R.string.password),
-                            passwordState = passwordState,
-                            modifier = Modifier,
-                            onImeAction = { }
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = userPassword,
+                            onValueChange = { userPassword = it },
+                            label = { Text(text = stringResource(id = R.string.password)) },
+                            maxLines = 1
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -94,7 +92,7 @@ fun SignInScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 16.dp),
-                            enabled = accountState.text.isNotBlank() && passwordState.text.isNotBlank()
+                            enabled = userAccount.isNotBlank() && userPassword.isNotBlank()
                         ) {
                             Text(
                                 text = stringResource(id = R.string.sign_in)
