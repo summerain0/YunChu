@@ -13,4 +13,6 @@
     <string name="account_is_empty">账号为空</string>
     <string name="app_crash">应用崩溃</string>
     <string name="reboot">重启</string>
+    <string name="copyright">Copyright© YunChu Develop Team All Rights Reserved</string>
+    <string name="auth_footer">登录/注册即视为您同意《用户协议》《隐私政策》《未成年人个人信息保护政策》</string>
 </resources>

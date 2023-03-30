@@ -1,4 +1,4 @@
-package com.cxoip.yunchu.route
+package com.cxoip.yunchu.route.auth
 
 import androidx.compose.runtime.Composable
 import com.cxoip.yunchu.ui.auth.SignInScreen

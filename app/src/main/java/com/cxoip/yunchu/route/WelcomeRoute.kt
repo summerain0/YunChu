@@ -9,11 +9,13 @@ import com.cxoip.yunchu.viewmodel.WelcomeViewModelFactory
 @Composable
 fun WelcomeRoute(
     onNavigationToSignIn: (account: String?) -> Unit,
-    onNavigationToSignUp: () -> Unit
+    onNavigationToSignUp: () -> Unit,
+    onNavigationToWeb: (url: String) -> Unit
 ) {
     val welcomeViewModel: WelcomeViewModel = viewModel(factory = WelcomeViewModelFactory())
     WelcomeScreen(
         onNavigationToSignIn = onNavigationToSignIn,
-        onNavigationToSignUp = onNavigationToSignUp
+        onNavigationToSignUp = onNavigationToSignUp,
+        onNavigationToWeb = onNavigationToWeb
     )
 }
