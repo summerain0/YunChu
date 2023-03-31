@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         google()
@@ -14,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "YunChu"
 include(":app")
+include(":yunchu-http")

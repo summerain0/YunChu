@@ -1,6 +1,7 @@
 package com.cxoip.yunchu
 
 import android.app.Application
+import com.cxoip.yunchu.http.YunChu
 import com.cxoip.yunchu.util.CrashHandler
 
 class MyApplication : Application() {
@@ -14,5 +15,6 @@ class MyApplication : Application() {
         super.onCreate()
         instance = this
         CrashHandler.instance.init(instance)
+        YunChu.init()
     }
 }

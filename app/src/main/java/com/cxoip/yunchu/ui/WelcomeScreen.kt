@@ -13,8 +13,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,20 +27,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.component.textfield.AccountTextField
-import com.cxoip.yunchu.state.AccountState
-import com.cxoip.yunchu.state.AccountStateSaver
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 
@@ -101,6 +100,7 @@ private fun Logo(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInCreateAccount(
     modifier: Modifier = Modifier,
@@ -109,9 +109,7 @@ private fun SignInCreateAccount(
     onNavigationToSignUp: () -> Unit,
     onNavigationToWeb: (url: String) -> Unit
 ) {
-    val accountState by rememberSaveable(stateSaver = AccountStateSaver) {
-        mutableStateOf(AccountState(""))
-    }
+    var account by rememberSaveable { mutableStateOf("") }
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = stringResource(id = R.string.sign_in_or_create_an_account),
@@ -120,15 +118,20 @@ private fun SignInCreateAccount(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 64.dp, bottom = 12.dp)
         )
-        AccountTextField(
-            label = stringResource(id = R.string.username_or_email),
-            accountState = accountState,
-            imeAction = ImeAction.Done
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    onFocusChange(it.isFocused)
+                },
+            label = { Text(text = stringResource(id = R.string.username_or_email)) },
+            value = account,
+            onValueChange = { account = it }
         )
-        onFocusChange(accountState.isFocused)
+
         Button(
-            enabled = accountState.isValid,
-            onClick = { onNavigationToSignIn(accountState.text) },
+            enabled = account.isNotBlank(),
+            onClick = { onNavigationToSignIn(account) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 28.dp, bottom = 3.dp)
@@ -208,7 +211,6 @@ private fun SignInCreateAccount(
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = stronglyDeemphasizedAlpha),
             textAlign = TextAlign.Center,
-            textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .clickable {

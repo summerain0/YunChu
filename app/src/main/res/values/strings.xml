@@ -5,6 +5,7 @@
     <string name="sign_in">登录</string>
     <string name="sign_up">注册</string>
     <string name="email">邮箱</string>
+    <string name="invitation_code">邀请码</string>
     <string name="or">或者</string>
     <string name="username_or_email">用户名/邮箱</string>
     <string name="password">密码</string>
@@ -13,6 +14,9 @@
     <string name="account_is_empty">账号为空</string>
     <string name="app_crash">应用崩溃</string>
     <string name="reboot">重启</string>
+    <string name="previous">上一步</string>
+    <string name="next_step">下一步</string>
+    <string name="done">完成</string>
     <string name="copyright">Copyright© YunChu Develop Team All Rights Reserved</string>
     <string name="auth_footer">登录/注册即视为您同意《用户协议》《隐私政策》《未成年人个人信息保护政策》</string>
 </resources>

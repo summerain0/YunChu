@@ -105,7 +105,11 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.splashscreen.compose)
+    implementation(libs.constraintlayout.compose)
     implementation(libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.permissions)
+
+    implementation(project(":yunchu-http"))
 
     implementation(platform(libs.sora.editor.bom))
     implementation(libs.sora.editor)

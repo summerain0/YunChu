@@ -2,6 +2,7 @@ package com.cxoip.yunchu.ui.web
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -44,28 +45,29 @@ fun WebScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = { Text(text = title ?: "") },
-                navigationIcon = {
-                    IconButton(onClick = { onNavUp() }) {
-                        Icon(
-                            imageVector = Icons.Filled.KeyboardArrowLeft,
-                            contentDescription = null
-                        )
+            Column {
+                TopAppBar(
+                    title = { Text(text = title ?: "") },
+                    navigationIcon = {
+                        IconButton(onClick = { onNavUp() }) {
+                            Icon(
+                                imageVector = Icons.Filled.KeyboardArrowLeft,
+                                contentDescription = null
+                            )
+                        }
                     }
-                }
-            )
-        }
-    ) { paddingValues ->
-        LazyColumn(contentPadding = paddingValues) {
-            item {
+                )
+                if (animatedProgress != 1F) {
                     LinearProgressIndicator(
                         progress = animatedProgress,
                         modifier = Modifier.fillMaxWidth(),
                         trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
                     )
+                }
             }
-
+        }
+    ) { paddingValues ->
+        LazyColumn(contentPadding = paddingValues) {
             item {
                 CustomWebView(
                     url = url,
