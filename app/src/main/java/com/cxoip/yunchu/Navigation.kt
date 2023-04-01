@@ -1,18 +1,20 @@
 package com.cxoip.yunchu
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.cxoip.yunchu.Destinations.MAIN_ROUTE
 import com.cxoip.yunchu.Destinations.SIGN_IN_ROUTE
 import com.cxoip.yunchu.Destinations.SIGN_UP_ROUTE
 import com.cxoip.yunchu.Destinations.WEB_ROUTE
 import com.cxoip.yunchu.Destinations.WELCOME_ROUTE
+import com.cxoip.yunchu.route.MainRoute
 import com.cxoip.yunchu.route.WelcomeRoute
 import com.cxoip.yunchu.route.auth.SignInRoute
 import com.cxoip.yunchu.route.auth.SignUpRoute
 import com.cxoip.yunchu.route.web.WebRoute
+import com.cxoip.yunchu.util.slideIntoContainerLeft
+import com.cxoip.yunchu.util.slideIntoContainerRight
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -22,16 +24,21 @@ object Destinations {
     const val SIGN_IN_ROUTE = "sign-in?account={account}"
     const val SIGN_UP_ROUTE = "sign-up"
     const val WEB_ROUTE = "web?title={title}&url={url}"
+    const val MAIN_ROUTE = "main"
+    const val QR_SCANNER_ROUTE = "qr-scanner"
+
+    const val MAIN_DOCUMENT_ROUTE = "main/document"
+    const val MAIN_FILE_ROUTE = "main/file"
+    const val MAIN_APPS_ROUTE = "main/apps"
+    const val MAIN_MY_ROUTE = "main/my"
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun YunChuNavHost(
-    navController: NavHostController = rememberAnimatedNavController()
-) {
+fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavController()) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = WELCOME_ROUTE,
+        startDestination = MAIN_ROUTE,
     ) {
         composable(WELCOME_ROUTE) {
             WelcomeRoute(
@@ -49,40 +56,23 @@ fun YunChuNavHost(
 
         composable(
             route = SIGN_IN_ROUTE,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    tween(700)
-                )
-            },
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() },
         ) {
             val account = it.arguments?.getString("account")
             SignInRoute(
                 account = account,
-                onNavUpHandler = navController::navigateUp
+                onNavUpHandler = navController::navigateUp,
+                onNavigationToMain = {
+                    navController.navigate(MAIN_ROUTE)
+                }
             )
         }
 
         composable(
             route = SIGN_UP_ROUTE,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    tween(700)
-                )
-            }
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() },
         ) {
             SignUpRoute(
                 onNavUp = navController::navigateUp,
@@ -94,24 +84,18 @@ fun YunChuNavHost(
 
         composable(
             route = WEB_ROUTE,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    tween(700)
-                )
-            },
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() },
         ) {
             val url = it.arguments?.getString("url") ?: "https://yunchu.cxoip.com"
             WebRoute(
                 url = url,
                 onNavUp = navController::navigateUp
             )
+        }
+
+        composable(route = MAIN_ROUTE) {
+            MainRoute()
         }
     }
 }

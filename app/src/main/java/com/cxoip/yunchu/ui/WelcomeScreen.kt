@@ -126,6 +126,7 @@ private fun SignInCreateAccount(
                 },
             label = { Text(text = stringResource(id = R.string.username_or_email)) },
             value = account,
+            singleLine = true,
             onValueChange = { account = it }
         )
 

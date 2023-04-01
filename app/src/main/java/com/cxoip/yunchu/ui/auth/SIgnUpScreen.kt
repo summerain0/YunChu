@@ -19,9 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,7 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -37,14 +34,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
+import com.cxoip.yunchu.ui.auth.signup.ConfirmPasswordPage
+import com.cxoip.yunchu.ui.auth.signup.EmailAndInvitationCodePage
+import com.cxoip.yunchu.ui.auth.signup.EmailVerifyCodePage
+import com.cxoip.yunchu.ui.auth.signup.PasswordPage
+import com.cxoip.yunchu.ui.auth.signup.UsernamePage
+import com.cxoip.yunchu.ui.auth.signup.VerifyCodePage
 import com.cxoip.yunchu.viewmodel.SignUpPage
 import com.cxoip.yunchu.viewmodel.SignUpScreenData
 import com.cxoip.yunchu.viewmodel.SignUpViewModel
@@ -84,7 +84,8 @@ fun SignUpScreen(
     ) {
         AppContent(
             paddingValues = it,
-            signUpScreenData = viewModel.signUpScreenData
+            signUpScreenData = viewModel.signUpScreenData,
+            viewModel = viewModel
         )
     }
 }
@@ -122,7 +123,8 @@ fun AppTopBar(
 @Composable
 fun AppContent(
     paddingValues: PaddingValues,
-    signUpScreenData: SignUpScreenData
+    signUpScreenData: SignUpScreenData,
+    viewModel: SignUpViewModel
 ) {
     Box(
         modifier = Modifier
@@ -151,51 +153,20 @@ fun AppContent(
             val modifier = Modifier.padding(16.dp)
 
             when (targetState.page) {
-                SignUpPage.EMAIL_AND_INVITATION_CODE -> EmailAndInvitationCodePage(modifier)
+                SignUpPage.EMAIL_AND_INVITATION_CODE ->
+                    EmailAndInvitationCodePage(modifier, viewModel)
 
-                SignUpPage.VERIFY_CODE ->
-                    Text(text = "VERIFY_CODE")
+                SignUpPage.VERIFY_CODE -> VerifyCodePage(modifier, viewModel)
 
-                SignUpPage.EMAIL_VERIFY_CODE ->
-                    Text(text = "EMAIL_VERIFY_CODE")
+                SignUpPage.EMAIL_VERIFY_CODE -> EmailVerifyCodePage(modifier, viewModel)
 
-                SignUpPage.USERNAME ->
-                    Text(text = "USERNAME")
+                SignUpPage.USERNAME -> UsernamePage(modifier, viewModel)
 
-                SignUpPage.PASSWORD ->
-                    Text(text = "PASSWORD")
+                SignUpPage.PASSWORD -> PasswordPage(modifier, viewModel)
 
-                SignUpPage.CONFIRM_PASSWORD ->
-                    Text(text = "CONFIRM_PASSWORD")
+                SignUpPage.CONFIRM_PASSWORD -> ConfirmPasswordPage(modifier, viewModel)
             }
         }
-    }
-}
-
-// 邮箱和邀请码
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun EmailAndInvitationCodePage(modifier: Modifier) {
-    var email by remember { mutableStateOf("") }
-    var invitationCode by remember { mutableStateOf("") }
-    Column(modifier = modifier) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = stringResource(id = R.string.email)) },
-            value = email,
-            onValueChange = { email = it },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription = null) }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = stringResource(id = R.string.invitation_code)) },
-            value = invitationCode,
-            onValueChange = { invitationCode = it },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Share, contentDescription = null) }
-        )
     }
 }
 

@@ -54,7 +54,7 @@ class CrashActivity : ComponentActivity() {
                         factory = { context ->
                             val editor = CodeEditor(context)
                             editor.isEditable = false
-                            editor.setTextSize(14F)
+                            editor.setTextSize(13F)
                             editor.setText(errorMessage)
                             editor
                         }

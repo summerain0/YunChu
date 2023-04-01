@@ -24,8 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +34,8 @@ import com.cxoip.yunchu.theme.YunChuTheme
 @Composable
 fun SignInScreen(
     account: String?,
-    onNavUpHandler: () -> Unit
+    onNavUpHandler: () -> Unit,
+    onNavigationToMain: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -72,7 +71,7 @@ fun SignInScreen(
                             value = userAccount,
                             onValueChange = { userAccount = it },
                             label = { Text(text = stringResource(id = R.string.username_or_email)) },
-                            maxLines = 1
+                            singleLine = true
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -82,13 +81,13 @@ fun SignInScreen(
                             value = userPassword,
                             onValueChange = { userPassword = it },
                             label = { Text(text = stringResource(id = R.string.password)) },
-                            maxLines = 1
+                            singleLine = true
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Button(
-                            onClick = { },
+                            onClick = { onNavigationToMain() },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 16.dp),
@@ -121,7 +120,8 @@ fun SignInScreen(
 fun SignInPreview() {
     YunChuTheme {
         SignInScreen(
-            account = ""
+            account = "",
+            {}
         ) {}
     }
 }

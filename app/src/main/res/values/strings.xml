@@ -1,22 +1,50 @@
 <resources>
     <string name="app_name">云储</string>
 
-    <string name="user_continue">继续</string>
-    <string name="sign_in">登录</string>
-    <string name="sign_up">注册</string>
-    <string name="email">邮箱</string>
-    <string name="invitation_code">邀请码</string>
-    <string name="or">或者</string>
-    <string name="username_or_email">用户名/邮箱</string>
-    <string name="password">密码</string>
-    <string name="forgot_password">忘记密码</string>
-    <string name="sign_in_or_create_an_account">登录或创建一个新账号</string>
-    <string name="account_is_empty">账号为空</string>
+    <string name="exit_toast">你确定要退出云储吗？</string>
     <string name="app_crash">应用崩溃</string>
+
+    <string name="document">文档</string>
+    <string name="file">文件</string>
+    <string name="apps">应用</string>
+    <string name="my">我的</string>
+
+    <string name="coming_soon">敬请期待</string>
+    <string name="exit">退出</string>
+    <string name="user_continue">继续</string>
     <string name="reboot">重启</string>
     <string name="previous">上一步</string>
     <string name="next_step">下一步</string>
     <string name="done">完成</string>
+    <string name="request_permission">请求权限</string>
+    <string name="qr_scanner">扫一扫</string>
+
+    <string name="sign_in_or_create_an_account">登录或创建一个新账号</string>
+    <string name="or">或者</string>
+
+    <string name="sign_in">登录</string>
+    <string name="sign_up">注册</string>
+    <string name="username_or_email">用户名/邮箱</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="email">邮箱</string>
+    <string name="invitation_code">邀请码</string>
+    <string name="image_verify_code">图形验证码</string>
+    <string name="email_verify_code">邮箱验证码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="forgot_password">忘记密码</string>
+
+    <string name="please_enter_email_address">请输入邮箱地址</string>
+    <string name="please_enter_valid_email_address">请输入合法的邮箱地址</string>
+    <string name="please_enter_invitation_code">请输入邀请码</string>
+    <string name="please_enter_username">请输入用户名</string>
+    <string name="please_enter_password">请输入密码</string>
+    <string name="please_enter_image_verify_code">请输入图形验证码</string>
+    <string name="please_enter_email_verify_code">请输入邮箱验证码</string>
+    <string name="two_passwords_are_inconsistent">两次密码不一致</string>
+    <string name="don_not_have_invitation_code">我没有邀请码</string>
     <string name="copyright">Copyright© YunChu Develop Team All Rights Reserved</string>
     <string name="auth_footer">登录/注册即视为您同意《用户协议》《隐私政策》《未成年人个人信息保护政策》</string>
+
+    <string name="qr_scanner_permission_toast">扫描二维码功能需要获取设备的摄像头权限，否则将无法正常使用扫描二维码功能</string>
 </resources>

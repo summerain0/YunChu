@@ -23,9 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.cxoip.yunchu.component.CustomWebView
-import com.cxoip.yunchu.theme.YunChuTheme
 
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,13 +90,5 @@ fun WebScreen(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    YunChuTheme {
-        WebScreen(url = "", onNavUp = {})
     }
 }
