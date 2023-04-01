@@ -4,6 +4,10 @@ import androidx.compose.runtime.Composable
 import com.cxoip.yunchu.ui.MainScreen
 
 @Composable
-fun MainRoute() {
-    MainScreen()
+fun MainRoute(
+    onNavigationToQRScanner: () -> Unit
+) {
+    MainScreen(
+        onNavigationToQRScanner = onNavigationToQRScanner
+    )
 }

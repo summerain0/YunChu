@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.cxoip.yunchu.Destinations.MAIN_ROUTE
+import com.cxoip.yunchu.Destinations.QR_SCANNER_ROUTE
 import com.cxoip.yunchu.Destinations.SIGN_IN_ROUTE
 import com.cxoip.yunchu.Destinations.SIGN_UP_ROUTE
 import com.cxoip.yunchu.Destinations.WEB_ROUTE
@@ -12,6 +13,7 @@ import com.cxoip.yunchu.route.MainRoute
 import com.cxoip.yunchu.route.WelcomeRoute
 import com.cxoip.yunchu.route.auth.SignInRoute
 import com.cxoip.yunchu.route.auth.SignUpRoute
+import com.cxoip.yunchu.route.scan.QRScannerRoute
 import com.cxoip.yunchu.route.web.WebRoute
 import com.cxoip.yunchu.util.slideIntoContainerLeft
 import com.cxoip.yunchu.util.slideIntoContainerRight
@@ -94,8 +96,20 @@ fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavControll
             )
         }
 
+        composable(QR_SCANNER_ROUTE) {
+            QRScannerRoute(
+                onNavUp = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
         composable(route = MAIN_ROUTE) {
-            MainRoute()
+            MainRoute(
+                onNavigationToQRScanner = {
+                    navController.navigate(QR_SCANNER_ROUTE)
+                }
+            )
         }
     }
 }

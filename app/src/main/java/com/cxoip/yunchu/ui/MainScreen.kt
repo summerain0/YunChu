@@ -64,7 +64,9 @@ val navigationData = arrayOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onNavigationToQRScanner: () -> Unit
+) {
     val scope = rememberCoroutineScope()
     val hostState = remember { SnackbarHostState() }
     val selectedIndex = rememberSaveable { mutableStateOf(0) }
@@ -83,7 +85,12 @@ fun MainScreen() {
     }
     Scaffold(
         snackbarHost = { SnackbarHost(hostState) },
-        topBar = { AppTopBar(selectedIndex = selectedIndex) },
+        topBar = {
+            AppTopBar(
+                selectedIndex = selectedIndex,
+                onNavigationToQRScanner = onNavigationToQRScanner
+            )
+        },
         bottomBar = {
             BottomBar(
                 selectedIndex = selectedIndex
@@ -99,14 +106,17 @@ fun MainScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(selectedIndex: MutableState<Int>) {
+fun AppTopBar(
+    selectedIndex: MutableState<Int>,
+    onNavigationToQRScanner: () -> Unit
+) {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         actions = {
             when (navigationData[selectedIndex.value]["route"] as String) {
                 Destinations.MAIN_MY_ROUTE -> {
                     IconButton(
-                        onClick = { }
+                        onClick = onNavigationToQRScanner
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
