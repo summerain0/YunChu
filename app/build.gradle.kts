@@ -98,6 +98,7 @@ android {
 
     packagingOptions.resources.excludes.add("DebugProbesKt.bin")
     packagingOptions.resources.excludes.add("kotlin-tooling-metadata.json")
+    packagingOptions.resources.excludes.add("META-INF/*.version")
 }
 
 dependencies {
