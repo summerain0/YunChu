@@ -3,6 +3,7 @@
 
     <string name="exit_toast">你确定要退出云储吗？</string>
     <string name="app_crash">应用崩溃</string>
+    <string name="currently_suspended_email_login">当前暂停邮箱登录</string>
 
     <string name="document">文档</string>
     <string name="file">文件</string>
@@ -23,6 +24,7 @@
     <string name="or">或者</string>
 
     <string name="sign_in">登录</string>
+    <string name="sign_in_running">登录中…</string>
     <string name="sign_up">注册</string>
     <string name="username_or_email">用户名/邮箱</string>
     <string name="username">用户名</string>

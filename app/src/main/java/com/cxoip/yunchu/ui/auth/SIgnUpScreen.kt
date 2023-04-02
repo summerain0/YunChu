@@ -53,8 +53,7 @@ import com.cxoip.yunchu.viewmodel.SignUpViewModel
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel,
-    onNavUp: () -> Unit,
-    onSignUpComplete: () -> Unit
+    onNavUp: () -> Unit
 ) {
     // 返回事件监听，如果可以返回就返回上一步，反之关闭窗口
     BackHandler {
@@ -78,7 +77,7 @@ fun SignUpScreen(
                 isNextButtonEnabled = viewModel.isNextEnabled,
                 onPreviousPressed = { viewModel.onPreviousPressed() },
                 onNextPressed = { viewModel.onNextPressed() },
-                onDonePressed = { viewModel.onDonePressed(onSignUpComplete) },
+                onDonePressed = { viewModel.onDonePressed(onNavUp) },
             )
         }
     ) {

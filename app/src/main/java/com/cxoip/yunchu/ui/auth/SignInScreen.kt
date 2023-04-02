@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
@@ -15,6 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -22,22 +26,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.theme.YunChuTheme
+import com.cxoip.yunchu.viewmodel.SignInViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
+    viewModel: SignInViewModel,
     account: String?,
     onNavUpHandler: () -> Unit,
     onNavigationToMain: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val hostState = remember { SnackbarHostState() }
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState) },
         topBar = {
             TopAppBar(
                 title = {
@@ -60,6 +74,9 @@ fun SignInScreen(
             item {
                 var userAccount by remember { mutableStateOf(account ?: "") }
                 var userPassword by remember { mutableStateOf("") }
+                var isLoading by remember { mutableStateOf(false) }
+                var isShowPassword by remember { mutableStateOf(false) }
+                val focusManager = LocalFocusManager.current
 
                 Spacer(modifier = Modifier.height(44.dp))
 
@@ -81,20 +98,70 @@ fun SignInScreen(
                             value = userPassword,
                             onValueChange = { userPassword = it },
                             label = { Text(text = stringResource(id = R.string.password)) },
-                            singleLine = true
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                keyboardType = KeyboardType.Password
+                            ),
+                            visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                            trailingIcon = {
+
+                                if (isShowPassword) {
+                                    IconButton(onClick = { isShowPassword = false }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                            contentDescription = null
+                                        )
+                                    }
+                                } else {
+                                    IconButton(onClick = { isShowPassword = true }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                            contentDescription = null
+                                        )
+                                    }
+                                }
+                            }
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Button(
-                            onClick = { onNavigationToMain() },
+                            onClick = {
+                                isLoading = true
+                                focusManager.clearFocus()
+                                viewModel.login(
+                                    account = userAccount,
+                                    password = userPassword,
+                                    onSuccess = {
+                                        isLoading = false
+                                        scope.launch {
+                                            hostState.showSnackbar(
+                                                message = it.token,
+                                                duration = SnackbarDuration.Short,
+                                                withDismissAction = true
+                                            )
+                                        }
+                                    },
+                                    onFailure = {
+                                        isLoading = false
+                                        scope.launch {
+                                            hostState.showSnackbar(
+                                                message = it,
+                                                duration = SnackbarDuration.Short,
+                                                withDismissAction = true
+                                            )
+                                        }
+                                    }
+                                )
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 16.dp),
-                            enabled = userAccount.isNotBlank() && userPassword.isNotBlank()
+                            enabled = (userAccount.isNotBlank() && userPassword.isNotBlank()) && !isLoading
                         ) {
                             Text(
-                                text = stringResource(id = R.string.sign_in)
+                                if (isLoading) stringResource(id = R.string.sign_in_running)
+                                else stringResource(id = R.string.sign_in)
                             )
                         }
 
@@ -108,20 +175,7 @@ fun SignInScreen(
                         }
                     }
                 }
-
-
             }
         }
-    }
-}
-
-@Preview()
-@Composable
-fun SignInPreview() {
-    YunChuTheme {
-        SignInScreen(
-            account = "",
-            {}
-        ) {}
     }
 }

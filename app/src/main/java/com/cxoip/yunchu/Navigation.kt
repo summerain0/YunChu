@@ -40,7 +40,7 @@ object Destinations {
 fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavController()) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = MAIN_ROUTE,
+        startDestination = WELCOME_ROUTE,
     ) {
         composable(WELCOME_ROUTE) {
             WelcomeRoute(
@@ -66,7 +66,12 @@ fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavControll
                 account = account,
                 onNavUpHandler = navController::navigateUp,
                 onNavigationToMain = {
-                    navController.navigate(MAIN_ROUTE)
+                    navController.navigate(MAIN_ROUTE) {
+                        // 弹出主页前所有的页面
+                        popUpTo(WELCOME_ROUTE) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
@@ -77,10 +82,7 @@ fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavControll
             exitTransition = { slideIntoContainerRight() },
         ) {
             SignUpRoute(
-                onNavUp = navController::navigateUp,
-                onSignUpComplete = {
-                    navController.navigate(WELCOME_ROUTE)
-                }
+                onNavUp = navController::navigateUp
             )
         }
 

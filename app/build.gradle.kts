@@ -93,7 +93,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
 
     packagingOptions.resources.excludes.add("DebugProbesKt.bin")
@@ -119,6 +119,8 @@ dependencies {
     implementation(libs.camera.view)
 
     implementation(libs.zxing.core)
+
+    implementation(libs.xLog)
 
     implementation(platform(libs.sora.editor.bom))
     implementation(libs.sora.editor)

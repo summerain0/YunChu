@@ -1,31 +1,38 @@
 [versions]
-com-android-application = "8.1.0-alpha10"
-org-jetbrains-kotlin-android = "1.7.20"
+android = "8.1.0-alpha10"
+# Kotlin
+org-jetbrains-kotlin-android = "1.8.10"
 core-ktx = "1.9.0"
+# Test
 junit = "4.13.2"
-androidx-test-ext-junit = "1.1.3"
-espresso-core = "3.4.0"
-lifecycle-runtime-ktx = "2.3.1"
-activity-compose = "1.6.1"
-compose-bom = "2023.01.00"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+# AndroidX
+lifecycle-runtime-ktx = "2.6.1"
+activity-compose = "1.7.0"
+compose-bom = "2023.03.00"
 navigation-compose = "2.5.3"
-lifecycle-viewmodel-compose = "2.5.1"
+lifecycle-viewmodel-compose = "2.6.1"
 splashscreen-compose = "1.0.0"
 constraintlayout-compose = "1.0.1"
+appcompat = "1.6.1"
+# Other
 accompanist = "0.30.0"
 sora-editor = "0.21.1"
-com-android-library = "8.1.0-alpha10"
-appcompat = "1.4.1"
-material = "1.5.0"
 ktor = "2.2.4"
 camera2 = "1.2.2"
 zxing = "3.5.1"
+x-log = "1.11.0"
 
 [libraries]
+# Kotlin
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "org-jetbrains-kotlin-android" }
+# Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+# AndroidX
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
@@ -34,7 +41,6 @@ splashscreen-compose = { group = "androidx.core", name = "core-splashscreen", ve
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 # zxing
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 # accompanist
@@ -52,7 +58,7 @@ ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 # Ktor
-ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -60,11 +66,13 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera2" }
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camera2" }
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camera2" }
+# XLog
+xLog = { group = "com.elvishew", name = "xlog", version.ref = "x-log" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "com-android-application" }
+com-android-application = { id = "com.android.application", version.ref = "android" }
+com-android-library = { id = "com.android.library", version.ref = "android" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
-com-android-library = { id = "com.android.library", version.ref = "com-android-library" }
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]
