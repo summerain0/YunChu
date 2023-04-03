@@ -36,6 +36,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.cxoip.yunchu.Destinations
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.viewmodel.SignInViewModel
 import kotlinx.coroutines.launch
@@ -44,9 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignInScreen(
     viewModel: SignInViewModel,
-    account: String?,
-    onNavUpHandler: () -> Unit,
-    onNavigationToMain: () -> Unit
+    account: String?
 ) {
     val scope = rememberCoroutineScope()
     val hostState = remember { SnackbarHostState() }
@@ -58,7 +58,9 @@ fun SignInScreen(
                     Text(text = stringResource(id = R.string.sign_in))
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavUpHandler) {
+                    IconButton(onClick = {
+                        MyApplication.getInstance().navController?.navigateUp()
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowLeft,
                             contentDescription = null
@@ -140,7 +142,14 @@ fun SignInScreen(
                                                 withDismissAction = true
                                             )
                                         }
-                                        onNavigationToMain()
+                                        MyApplication.getInstance().navController?.navigate(
+                                            Destinations.MAIN_ROUTE
+                                        ) {
+                                            // 弹出主页前所有的页面
+                                            popUpTo(Destinations.WELCOME_ROUTE) {
+                                                inclusive = true
+                                            }
+                                        }
                                     },
                                     onFailure = {
                                         isLoading = false

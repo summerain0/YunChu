@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import com.cxoip.yunchu.ui.scan.QRScannerScreen
 
 @Composable
-fun QRScannerRoute(
-    onNavUp: () -> Unit
-) {
-    QRScannerScreen(onNavUp = onNavUp)
+fun QRScannerRoute() {
+    QRScannerScreen()
 }

@@ -43,9 +43,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun QRScannerScreen(
-    onNavUp: () -> Unit
-) {
+fun QRScannerScreen() {
     val cameraPermissionState = rememberPermissionState(
         Manifest.permission.CAMERA
     )
@@ -60,7 +58,11 @@ fun QRScannerScreen(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.qr_scanner)) },
                 navigationIcon = {
-                    IconButton(onClick = onNavUp) {
+                    IconButton(
+                        onClick = {
+                            MyApplication.getInstance().navController?.navigateUp()
+                        }
+                    ) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
                     }
                 }
@@ -139,5 +141,5 @@ fun QRScannerScreen(
  * 处理二维码识别到的内容
  */
 private fun analyzeQRCodeContent(content: String) {
-    Toast.makeText(MyApplication.getInstance(), "$content", Toast.LENGTH_SHORT).show()
+    Toast.makeText(MyApplication.getInstance(), content, Toast.LENGTH_SHORT).show()
 }

@@ -37,16 +37,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cxoip.yunchu.Destinations
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 
 @Composable
-fun WelcomeScreen(
-    onNavigationToSignIn: (account: String?) -> Unit,
-    onNavigationToSignUp: () -> Unit,
-    onNavigationToWeb: (url: String) -> Unit
-) {
+fun WelcomeScreen() {
     // 是否展示顶部横幅
     var showBranding by remember { mutableStateOf(true) }
 
@@ -80,10 +78,7 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
-                onFocusChange = { focused -> showBranding = !focused },
-                onNavigationToSignIn = onNavigationToSignIn,
-                onNavigationToSignUp = onNavigationToSignUp,
-                onNavigationToWeb = onNavigationToWeb
+                onFocusChange = { focused -> showBranding = !focused }
             )
         }
     }
@@ -104,10 +99,7 @@ private fun Logo(
 @Composable
 private fun SignInCreateAccount(
     modifier: Modifier = Modifier,
-    onFocusChange: (Boolean) -> Unit,
-    onNavigationToSignIn: (account: String?) -> Unit,
-    onNavigationToSignUp: () -> Unit,
-    onNavigationToWeb: (url: String) -> Unit
+    onFocusChange: (Boolean) -> Unit
 ) {
     var account by rememberSaveable { mutableStateOf("") }
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -132,7 +124,9 @@ private fun SignInCreateAccount(
 
         Button(
             enabled = account.isNotBlank(),
-            onClick = { onNavigationToSignIn(account) },
+            onClick = {
+                MyApplication.getInstance().navController?.navigate("sign-in?account=$account")
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 28.dp, bottom = 3.dp)
@@ -142,7 +136,7 @@ private fun SignInCreateAccount(
                 style = MaterialTheme.typography.titleSmall
             )
         }
-        OrSignUp(onNavigationToSignUp = onNavigationToSignUp)
+        OrSignUp()
 
         val annotationString = buildAnnotatedString {
             val string = stringResource(id = R.string.auth_footer)
@@ -189,17 +183,18 @@ private fun SignInCreateAccount(
         ClickableText(
             text = annotationString,
             onClick = { index ->
+                val navController = MyApplication.getInstance().navController
                 when (index) {
                     in 12..16 -> {
-                        onNavigationToWeb("file:android_asset/agreements/UserAgreement.html")
+                        navController?.navigate("file:android_asset/agreements/UserAgreement.html")
                     }
 
                     in 18..22 -> {
-                        onNavigationToWeb("file:android_asset/agreements/PrivacyPolicy.html")
+                        navController?.navigate("file:android_asset/agreements/PrivacyPolicy.html")
                     }
 
                     in 24..36 -> {
-                        onNavigationToWeb("file:android_asset/agreements/MinorProtectionAgreement.html")
+                        navController?.navigate("file:android_asset/agreements/MinorProtectionAgreement.html")
                     }
                 }
             },
@@ -215,7 +210,7 @@ private fun SignInCreateAccount(
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .clickable {
-                    onNavigationToWeb("file:android_asset/agreements/Copyright.html")
+                    MyApplication.getInstance().navController?.navigate("file:android_asset/agreements/Copyright.html")
                 }
         )
     }
@@ -225,10 +220,7 @@ private fun SignInCreateAccount(
  * 或者注册组件
  */
 @Composable
-fun OrSignUp(
-    onNavigationToSignUp: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun OrSignUp(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -240,7 +232,9 @@ fun OrSignUp(
             modifier = Modifier.paddingFromBaseline(top = 25.dp)
         )
         OutlinedButton(
-            onClick = onNavigationToSignUp,
+            onClick = {
+                MyApplication.getInstance().navController?.navigate(Destinations.SIGN_UP_ROUTE)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp, bottom = 12.dp),
@@ -254,6 +248,6 @@ fun OrSignUp(
 @Composable
 fun WelcomeScreenPreview() {
     YunChuTheme {
-        WelcomeScreen({}, {}, { _ -> })
+        WelcomeScreen()
     }
 }

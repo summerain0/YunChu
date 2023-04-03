@@ -5,6 +5,7 @@
     <string name="app_crash">应用崩溃</string>
     <string name="currently_suspended_email_login">当前暂停邮箱登录</string>
     <string name="invitation_code_tips">可将邀请码分享给你的好友进行注册~</string>
+    <string name="copied_to_clipboard">已复制到剪切板</string>
 
     <string name="document">文档</string>
     <string name="file">文件</string>
@@ -38,6 +39,10 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="email">邮箱</string>
+    <string name="uid">UID</string>
+    <string name="telephone">电话号码</string>
+    <string name="qq_code">QQ号码</string>
+    <string name="update_password">修改密码</string>
     <string name="invitation_code">邀请码</string>
     <string name="user_private_key">用户密钥</string>
     <string name="image_verify_code">图形验证码</string>

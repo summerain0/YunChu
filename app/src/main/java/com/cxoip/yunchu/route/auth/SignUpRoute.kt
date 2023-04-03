@@ -7,12 +7,7 @@ import com.cxoip.yunchu.viewmodel.SignUpViewModel
 import com.cxoip.yunchu.viewmodel.SignUpViewModelFactory
 
 @Composable
-fun SignUpRoute(
-    onNavUp: () -> Unit
-) {
+fun SignUpRoute() {
     val viewModel: SignUpViewModel = viewModel(factory = SignUpViewModelFactory())
-    SignUpScreen(
-        viewModel = viewModel,
-        onNavUp = onNavUp
-    )
+    SignUpScreen(viewModel = viewModel)
 }

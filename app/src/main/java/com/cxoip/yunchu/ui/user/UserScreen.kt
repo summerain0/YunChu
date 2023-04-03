@@ -17,16 +17,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,58 +49,81 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.cxoip.yunchu.Destinations
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
+import com.cxoip.yunchu.util.ClipboardUtils
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreen() {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
+    val hostState = remember { SnackbarHostState() }
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState) },
+        modifier = Modifier.fillMaxSize()
     ) {
-        item { Spacer(modifier = Modifier.height(8.dp)) }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            item { Spacer(modifier = Modifier.height(8.dp)) }
 
-        item {
-            UserPanel(
-                avatarUrl = "https://q1.qlogo.cn/g?b=qq&nk=2351602624&s=640",
-                username = "summerain0"
-            )
-        }
+            item {
+                UserPanel(
+                    avatarUrl = "https://q1.qlogo.cn/g?b=qq&nk=2351602624&s=640",
+                    username = "summerain0"
+                )
+            }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item { InvitationCodePanel("JD-375849") }
+            item {
+                InvitationCodePanel(
+                    invitationCode = "JD-375849",
+                    hostState = hostState
+                )
+            }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item { UserKeyPanel("EgxE7NlvdIkTiBWy4kVtU4rlna0eZDyw") }
+            item {
+                UserKeyPanel(
+                    key = "EgxE7NlvdIkTiBWy4kVtU4rlna0eZDyw",
+                    hostState = hostState
+                )
+            }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item { ConsolePanel() }
+            item { ConsolePanel() }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item { OtherPanel() }
+            item { OtherPanel() }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        item {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-            ) {
-                OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { /*TODO*/ }
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.logout))
+                    OutlinedButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Text(text = stringResource(id = R.string.logout))
+                    }
                 }
             }
-        }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+        }
     }
 }
 
@@ -107,7 +136,9 @@ private fun UserPanel(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clickable { }
+            .clickable {
+                MyApplication.getInstance().navController?.navigate(Destinations.MAIN_MY_DETAIL_ROUTE)
+            }
     ) {
         val (avatarRef, usernameRef, signRef, iconRef) = createRefs()
 
@@ -163,7 +194,11 @@ private fun UserPanel(
 }
 
 @Composable
-private fun InvitationCodePanel(invitationCode: String) {
+private fun InvitationCodePanel(
+    invitationCode: String,
+    hostState: SnackbarHostState
+) {
+    val scope = rememberCoroutineScope()
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -207,7 +242,17 @@ private fun InvitationCodePanel(invitationCode: String) {
                         absoluteRight.linkTo(parent.absoluteRight)
                         top.linkTo(parent.top)
                     },
-                onClick = { /*TODO*/ }
+                onClick = {
+                    ClipboardUtils.set(invitationCode)
+                    scope.launch {
+                        hostState.showSnackbar(
+                            message = MyApplication.getInstance()
+                                .getString(R.string.copied_to_clipboard),
+                            duration = SnackbarDuration.Short,
+                            withDismissAction = true
+                        )
+                    }
+                }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Share,
@@ -241,7 +286,7 @@ private fun InvitationCodePanel(invitationCode: String) {
                         top.linkTo(codeRef.bottom, 8.dp)
                     },
                 text = stringResource(id = R.string.invitation_code_tips),
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
@@ -249,7 +294,11 @@ private fun InvitationCodePanel(invitationCode: String) {
 }
 
 @Composable
-private fun UserKeyPanel(key: String) {
+private fun UserKeyPanel(
+    key: String,
+    hostState: SnackbarHostState
+) {
+    val scope = rememberCoroutineScope()
     var isShowKey by remember { mutableStateOf(false) }
     val displayKey = if (isShowKey) {
         key
@@ -343,7 +392,17 @@ private fun UserKeyPanel(key: String) {
                     absoluteRight.linkTo(parent.absoluteRight)
                     top.linkTo(codeRef.bottom, 16.dp)
                 },
-                onClick = { /*TODO*/ }
+                onClick = {
+                    ClipboardUtils.set(key)
+                    scope.launch {
+                        hostState.showSnackbar(
+                            message = MyApplication.getInstance()
+                                .getString(R.string.copied_to_clipboard),
+                            duration = SnackbarDuration.Short,
+                            withDismissAction = true
+                        )
+                    }
+                }
             ) {
                 Text(text = stringResource(id = R.string.copy))
             }
@@ -471,7 +530,7 @@ private fun OtherPanel() {
 
 @Preview(showBackground = true)
 @Composable
-fun Preview() {
+private fun Preview() {
     YunChuTheme {
         UserScreen()
     }

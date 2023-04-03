@@ -23,15 +23,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.component.CustomWebView
 
 @SuppressLint("SetJavaScriptEnabled")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WebScreen(
-    url: String,
-    onNavUp: () -> Unit
-) {
+fun WebScreen(url: String) {
     var progress by remember { mutableStateOf(0F) }
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
@@ -47,7 +45,11 @@ fun WebScreen(
                 TopAppBar(
                     title = { Text(text = title ?: "") },
                     navigationIcon = {
-                        IconButton(onClick = { onNavUp() }) {
+                        IconButton(
+                            onClick = {
+                                MyApplication.getInstance().navController?.navigateUp()
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.Filled.KeyboardArrowLeft,
                                 contentDescription = null
@@ -84,7 +86,7 @@ fun WebScreen(
                         if (it?.canGoBack() == true) {
                             it.goBack()
                         } else {
-                            onNavUp()
+                            MyApplication.getInstance().navController?.navigateUp()
                         }
                     }
                 )

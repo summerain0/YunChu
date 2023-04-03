@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.ui.auth.signup.ConfirmPasswordPage
 import com.cxoip.yunchu.ui.auth.signup.EmailAndInvitationCodePage
@@ -51,33 +52,31 @@ import com.cxoip.yunchu.viewmodel.SignUpViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(
-    viewModel: SignUpViewModel,
-    onNavUp: () -> Unit
-) {
+fun SignUpScreen(viewModel: SignUpViewModel) {
     // 返回事件监听，如果可以返回就返回上一步，反之关闭窗口
     BackHandler {
         if (viewModel.signUpScreenData.shouldShowPreviousButton) {
             viewModel.onPreviousPressed()
         } else {
-            onNavUp()
+            MyApplication.getInstance().navController?.navigateUp()
         }
     }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            AppTopBar(
-                onNavUp = onNavUp,
-                signUpScreenData = viewModel.signUpScreenData,
-            )
-        },
+        topBar = { AppTopBar(signUpScreenData = viewModel.signUpScreenData) },
         bottomBar = {
             BottomBar(
                 signUpScreenData = viewModel.signUpScreenData,
                 isNextButtonEnabled = viewModel.isNextEnabled,
                 onPreviousPressed = { viewModel.onPreviousPressed() },
                 onNextPressed = { viewModel.onNextPressed() },
-                onDonePressed = { viewModel.onDonePressed(onNavUp) },
+                onDonePressed = {
+                    viewModel.onDonePressed(
+                        onSignUpComplete = {
+                            MyApplication.getInstance().navController?.navigateUp()
+                        }
+                    )
+                },
             )
         }
     ) {
@@ -91,15 +90,16 @@ fun SignUpScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(
-    onNavUp: () -> Unit,
-    signUpScreenData: SignUpScreenData
-) {
+fun AppTopBar(signUpScreenData: SignUpScreenData) {
     Column {
         TopAppBar(
             title = { Text(text = stringResource(id = R.string.sign_up)) },
             navigationIcon = {
-                IconButton(onClick = { onNavUp() }) {
+                IconButton(
+                    onClick = {
+                        MyApplication.getInstance().navController?.navigateUp()
+                    }
+                ) {
                     Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = null)
                 }
             }

@@ -8,15 +8,11 @@ import com.cxoip.yunchu.viewmodel.SignInViewModelFactory
 
 @Composable
 fun SignInRoute(
-    account: String?,
-    onNavUpHandler: () -> Unit,
-    onNavigationToMain: () -> Unit
+    account: String?
 ) {
     val viewModel: SignInViewModel = viewModel(factory = SignInViewModelFactory())
     SignInScreen(
         viewModel = viewModel,
-        account = account,
-        onNavUpHandler = onNavUpHandler,
-        onNavigationToMain = onNavigationToMain
+        account = account
     )
 }
