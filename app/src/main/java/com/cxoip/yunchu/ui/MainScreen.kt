@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItem
@@ -70,6 +71,7 @@ fun MainScreen(
     val scope = rememberCoroutineScope()
     val hostState = remember { SnackbarHostState() }
     val selectedIndex = rememberSaveable { mutableStateOf(0) }
+    var isDisplayDocumentDetail = remember { mutableStateOf(false) }
     BackHandler {
         scope.launch {
             val result = hostState.showSnackbar(
@@ -88,18 +90,30 @@ fun MainScreen(
         topBar = {
             AppTopBar(
                 selectedIndex = selectedIndex,
-                onNavigationToQRScanner = onNavigationToQRScanner
+                onNavigationToQRScanner = onNavigationToQRScanner,
+                isDisplayDocumentDetail = isDisplayDocumentDetail
             )
         },
         bottomBar = {
             BottomBar(
                 selectedIndex = selectedIndex
             )
+        },
+        floatingActionButton = {
+            if (navigationData[selectedIndex.value]["route"] as String == Destinations.MAIN_DOCUMENT_ROUTE) {
+                FloatingActionButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_add_24),
+                        contentDescription = null
+                    )
+                }
+            }
         }
     ) {
         AppContent(
             paddingValues = it,
-            targetPageRoute = navigationData[selectedIndex.value]["route"] as String
+            targetPageRoute = navigationData[selectedIndex.value]["route"] as String,
+            isDisplayDocumentDetail = isDisplayDocumentDetail
         )
     }
 }
@@ -108,12 +122,34 @@ fun MainScreen(
 @Composable
 fun AppTopBar(
     selectedIndex: MutableState<Int>,
-    onNavigationToQRScanner: () -> Unit
+    onNavigationToQRScanner: () -> Unit,
+    isDisplayDocumentDetail: MutableState<Boolean>
 ) {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         actions = {
             when (navigationData[selectedIndex.value]["route"] as String) {
+                // 文档页面
+                Destinations.MAIN_DOCUMENT_ROUTE -> {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = { isDisplayDocumentDetail.value = !isDisplayDocumentDetail.value }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = if (isDisplayDocumentDetail.value) R.drawable.baseline_list_24 else R.drawable.baseline_view_list_24),
+                            contentDescription = null
+                        )
+                    }
+                }
+
+                // 我的页面
                 Destinations.MAIN_MY_ROUTE -> {
                     IconButton(
                         onClick = onNavigationToQRScanner
@@ -158,7 +194,8 @@ fun BottomBar(
 @Composable
 fun AppContent(
     paddingValues: PaddingValues,
-    targetPageRoute: String
+    targetPageRoute: String,
+    isDisplayDocumentDetail: MutableState<Boolean>
 ) {
     Surface(modifier = Modifier.padding(paddingValues)) {
         AnimatedContent(
@@ -167,7 +204,7 @@ fun AppContent(
             label = "AnimatedContent"
         ) {
             when (it) {
-                Destinations.MAIN_DOCUMENT_ROUTE -> DocumentRoute()
+                Destinations.MAIN_DOCUMENT_ROUTE -> DocumentRoute(isDisplayDocumentDetail = isDisplayDocumentDetail)
                 Destinations.MAIN_FILE_ROUTE -> FileRoute()
                 Destinations.MAIN_APPS_ROUTE -> AppsRoute()
                 Destinations.MAIN_MY_ROUTE -> UserRoute()

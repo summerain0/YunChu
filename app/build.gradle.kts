@@ -110,6 +110,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.splashscreen.compose)
     implementation(libs.constraintlayout.compose)
+    implementation(libs.androidx.collection.ktx)
 
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.accompanist.permissions)
@@ -117,6 +118,9 @@ dependencies {
     implementation(libs.camera2)
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
+
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     implementation(libs.zxing.core)
 

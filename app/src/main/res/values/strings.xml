@@ -4,6 +4,7 @@
     <string name="exit_toast">你确定要退出云储吗？</string>
     <string name="app_crash">应用崩溃</string>
     <string name="currently_suspended_email_login">当前暂停邮箱登录</string>
+    <string name="invitation_code_tips">可将邀请码分享给你的好友进行注册~</string>
 
     <string name="document">文档</string>
     <string name="file">文件</string>
@@ -17,6 +18,12 @@
     <string name="previous">上一步</string>
     <string name="next_step">下一步</string>
     <string name="done">完成</string>
+    <string name="update">更新</string>
+    <string name="copy">复制</string>
+    <string name="about">关于</string>
+    <string name="setting">设置</string>
+    <string name="interface_document">接口文档</string>
+    <string name="report_document">举报文档</string>
     <string name="request_permission">请求权限</string>
     <string name="qr_scanner">扫一扫</string>
 
@@ -24,6 +31,7 @@
     <string name="or">或者</string>
 
     <string name="sign_in">登录</string>
+    <string name="logout">退出登录</string>
     <string name="sign_in_running">登录中…</string>
     <string name="sign_up">注册</string>
     <string name="username_or_email">用户名/邮箱</string>
@@ -31,6 +39,7 @@
     <string name="password">密码</string>
     <string name="email">邮箱</string>
     <string name="invitation_code">邀请码</string>
+    <string name="user_private_key">用户密钥</string>
     <string name="image_verify_code">图形验证码</string>
     <string name="email_verify_code">邮箱验证码</string>
     <string name="confirm_password">确认密码</string>

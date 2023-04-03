@@ -16,6 +16,7 @@ lifecycle-viewmodel-compose = "2.6.1"
 splashscreen-compose = "1.0.0"
 constraintlayout-compose = "1.0.1"
 appcompat = "1.6.1"
+collection-ktx = "1.2.0"
 # Other
 accompanist = "0.30.0"
 sora-editor = "0.21.1"
@@ -23,6 +24,7 @@ ktor = "2.2.4"
 camera2 = "1.2.2"
 zxing = "3.5.1"
 x-log = "1.11.0"
+coil = "2.3.0"
 
 [libraries]
 # Kotlin
@@ -41,6 +43,7 @@ splashscreen-compose = { group = "androidx.core", name = "core-splashscreen", ve
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collection-ktx" }
 # zxing
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 # accompanist
@@ -68,6 +71,9 @@ camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", versi
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camera2" }
 # XLog
 xLog = { group = "com.elvishew", name = "xlog", version.ref = "x-log" }
+# coil
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android" }

@@ -40,7 +40,7 @@ object Destinations {
 fun YunChuNavHost(navController: NavHostController = rememberAnimatedNavController()) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = WELCOME_ROUTE,
+        startDestination = MAIN_ROUTE,
     ) {
         composable(WELCOME_ROUTE) {
             WelcomeRoute(

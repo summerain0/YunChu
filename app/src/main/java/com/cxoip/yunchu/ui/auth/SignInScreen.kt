@@ -104,18 +104,17 @@ fun SignInScreen(
                             ),
                             visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation(),
                             trailingIcon = {
-
                                 if (isShowPassword) {
                                     IconButton(onClick = { isShowPassword = false }) {
                                         Icon(
-                                            painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                            painter = painterResource(id = R.drawable.baseline_visibility_24),
                                             contentDescription = null
                                         )
                                     }
                                 } else {
                                     IconButton(onClick = { isShowPassword = true }) {
                                         Icon(
-                                            painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                            painter = painterResource(id = R.drawable.baseline_visibility_off_24),
                                             contentDescription = null
                                         )
                                     }
@@ -141,6 +140,7 @@ fun SignInScreen(
                                                 withDismissAction = true
                                             )
                                         }
+                                        onNavigationToMain()
                                     },
                                     onFailure = {
                                         isLoading = false

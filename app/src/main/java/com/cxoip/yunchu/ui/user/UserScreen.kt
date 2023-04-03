@@ -1,8 +1,478 @@
 package com.cxoip.yunchu.ui.user
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.cxoip.yunchu.R
+import com.cxoip.yunchu.theme.YunChuTheme
+import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 
 @Composable
 fun UserScreen() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        item { Spacer(modifier = Modifier.height(8.dp)) }
 
+        item {
+            UserPanel(
+                avatarUrl = "https://q1.qlogo.cn/g?b=qq&nk=2351602624&s=640",
+                username = "summerain0"
+            )
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item { InvitationCodePanel("JD-375849") }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item { UserKeyPanel("EgxE7NlvdIkTiBWy4kVtU4rlna0eZDyw") }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item { ConsolePanel() }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item { OtherPanel() }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+            ) {
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { /*TODO*/ }
+                ) {
+                    Text(text = stringResource(id = R.string.logout))
+                }
+            }
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+    }
+}
+
+@Composable
+private fun UserPanel(
+    avatarUrl: String,
+    username: String
+) {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clickable { }
+    ) {
+        val (avatarRef, usernameRef, signRef, iconRef) = createRefs()
+
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(avatarUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(56.dp)
+                .clip(CircleShape)
+                .constrainAs(avatarRef) {
+                    absoluteLeft.linkTo(parent.absoluteLeft, 16.dp)
+                    top.linkTo(parent.top, 8.dp)
+                    bottom.linkTo(parent.bottom, 8.dp)
+                }
+        )
+
+        Text(
+            modifier = Modifier.constrainAs(usernameRef) {
+                absoluteLeft.linkTo(avatarRef.absoluteRight, 16.dp)
+                top.linkTo(avatarRef.top, 8.dp)
+            },
+            text = username,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            fontWeight = FontWeight.Bold
+        )
+
+        Text(
+            modifier = Modifier.constrainAs(signRef) {
+                absoluteLeft.linkTo(usernameRef.absoluteLeft)
+                bottom.linkTo(avatarRef.bottom, 8.dp)
+            },
+            text = "描述描述",
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(stronglyDeemphasizedAlpha)
+        )
+
+        Icon(
+            modifier = Modifier.constrainAs(iconRef) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                absoluteRight.linkTo(parent.absoluteRight, 16.dp)
+            },
+            imageVector = Icons.Filled.KeyboardArrowRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(stronglyDeemphasizedAlpha)
+        )
+    }
+}
+
+@Composable
+private fun InvitationCodePanel(invitationCode: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline)
+    ) {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            val (cardIconRef, titleRef, shareIconRef, codeRef, tipsRef) = createRefs()
+
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(cardIconRef) {
+                        absoluteLeft.linkTo(parent.absoluteLeft)
+                        top.linkTo(parent.top)
+                    },
+                painter = painterResource(id = R.drawable.ic_account_group_outline),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+
+            Text(
+                modifier = Modifier.constrainAs(titleRef) {
+                    absoluteLeft.linkTo(cardIconRef.absoluteRight, 16.dp)
+                    top.linkTo(parent.top)
+                },
+                text = stringResource(id = R.string.invitation_code),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+
+            IconButton(
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(shareIconRef) {
+                        absoluteRight.linkTo(parent.absoluteRight)
+                        top.linkTo(parent.top)
+                    },
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Share,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(codeRef) {
+                        absoluteLeft.linkTo(parent.absoluteLeft, 16.dp)
+                        absoluteRight.linkTo(parent.absoluteRight, 16.dp)
+                        top.linkTo(cardIconRef.bottom, 16.dp)
+                    },
+                text = invitationCode,
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(tipsRef) {
+                        absoluteLeft.linkTo(parent.absoluteLeft, 16.dp)
+                        absoluteRight.linkTo(parent.absoluteRight, 16.dp)
+                        top.linkTo(codeRef.bottom, 8.dp)
+                    },
+                text = stringResource(id = R.string.invitation_code_tips),
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserKeyPanel(key: String) {
+    var isShowKey by remember { mutableStateOf(false) }
+    val displayKey = if (isShowKey) {
+        key
+    } else {
+        "*".repeat(key.length)
+    }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline)
+    ) {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            val (cardIconRef, titleRef, shareIconRef, codeRef, updateBtnRef, copyBtnRef) = createRefs()
+
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(cardIconRef) {
+                        absoluteLeft.linkTo(parent.absoluteLeft)
+                        top.linkTo(parent.top)
+                    },
+                painter = painterResource(id = R.drawable.ic_shield_key_outline),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+
+            Text(
+                modifier = Modifier.constrainAs(titleRef) {
+                    absoluteLeft.linkTo(cardIconRef.absoluteRight, 16.dp)
+                    top.linkTo(parent.top)
+                },
+                text = stringResource(id = R.string.user_private_key),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+
+            IconButton(
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(shareIconRef) {
+                        absoluteRight.linkTo(parent.absoluteRight)
+                        top.linkTo(parent.top)
+                    },
+                onClick = { isShowKey = !isShowKey }
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = if (isShowKey) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24
+                    ),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(codeRef) {
+                        absoluteLeft.linkTo(parent.absoluteLeft, 16.dp)
+                        absoluteRight.linkTo(parent.absoluteRight, 16.dp)
+                        top.linkTo(cardIconRef.bottom, 16.dp)
+                    },
+                text = displayKey,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center
+            )
+
+            TextButton(
+                modifier = Modifier.constrainAs(updateBtnRef) {
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+                    top.linkTo(codeRef.bottom, 16.dp)
+                },
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = stringResource(id = R.string.update))
+            }
+
+            TextButton(
+                modifier = Modifier.constrainAs(copyBtnRef) {
+                    absoluteRight.linkTo(parent.absoluteRight)
+                    top.linkTo(codeRef.bottom, 16.dp)
+                },
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = stringResource(id = R.string.copy))
+            }
+        }
+    }
+}
+
+@Composable
+private fun ConsolePanel() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { }
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.baseline_report_24),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.report_document),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 16.sp
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { }
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.baseline_menu_book_24),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.interface_document),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 16.sp
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun OtherPanel() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { }
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.baseline_settings_24),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.setting),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 16.sp
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { }
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.baseline_info_24),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.about),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 16.sp
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    YunChuTheme {
+        UserScreen()
+    }
 }
