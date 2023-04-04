@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "YunChu"
 include(":app")
 include(":yunchu-http")
+include(":setting-compose")

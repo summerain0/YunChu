@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.component.CustomWebView
 
@@ -43,7 +44,13 @@ fun WebScreen(url: String) {
         topBar = {
             Column {
                 TopAppBar(
-                    title = { Text(text = title ?: "") },
+                    title = {
+                        Text(
+                            text = title ?: "",
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1
+                        )
+                    },
                     navigationIcon = {
                         IconButton(
                             onClick = {

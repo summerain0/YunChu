@@ -22,3 +22,9 @@ fun playMP3FromAssets(filePath: String) {
     }
     mediaPlayer.prepareAsync()
 }
+
+fun getStrFromAssets(filePath: String): String {
+    return getAssets().open(filePath).bufferedReader().use {
+        it.readText()
+    }
+}

@@ -103,6 +103,8 @@ android {
 
 dependencies {
     implementation(project(":yunchu-http"))
+    implementation(project(":setting-compose"))
+
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)

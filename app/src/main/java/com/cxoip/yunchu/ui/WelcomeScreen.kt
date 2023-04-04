@@ -186,15 +186,15 @@ private fun SignInCreateAccount(
                 val navController = MyApplication.getInstance().navController
                 when (index) {
                     in 12..16 -> {
-                        navController?.navigate("file:android_asset/agreements/UserAgreement.html")
+                        navController?.navigate("web?url=file:android_asset/agreements/UserAgreement.html")
                     }
 
                     in 18..22 -> {
-                        navController?.navigate("file:android_asset/agreements/PrivacyPolicy.html")
+                        navController?.navigate("web?url=file:android_asset/agreements/PrivacyPolicy.html")
                     }
 
                     in 24..36 -> {
-                        navController?.navigate("file:android_asset/agreements/MinorProtectionAgreement.html")
+                        navController?.navigate("web?url=file:android_asset/agreements/MinorProtectionAgreement.html")
                     }
                 }
             },
@@ -210,7 +210,7 @@ private fun SignInCreateAccount(
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .clickable {
-                    MyApplication.getInstance().navController?.navigate("file:android_asset/agreements/Copyright.html")
+                    MyApplication.getInstance().navController?.navigate("web?url=file:android_asset/agreements/Copyright.html")
                 }
         )
     }

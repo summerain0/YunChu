@@ -1,5 +1,7 @@
 package com.cxoip.yunchu.ui.user
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -447,7 +449,14 @@ private fun ConsolePanel() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        val context = MyApplication.getInstance()
+                        val url = "https://yunchu.cxoip.com/doc/"
+                        val uri = Uri.parse(url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                    }
                     .padding(16.dp)
             ) {
                 Icon(
@@ -482,31 +491,33 @@ private fun OtherPanel() {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .clickable { }
+//                    .padding(16.dp)
+//            ) {
+//                Icon(
+//                    modifier = Modifier.size(24.dp),
+//                    painter = painterResource(id = R.drawable.baseline_settings_24),
+//                    contentDescription = null,
+//                    tint = MaterialTheme.colorScheme.primary
+//                )
+//
+//                Spacer(modifier = Modifier.width(16.dp))
+//
+//                Text(
+//                    text = stringResource(id = R.string.setting),
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+//                    fontSize = 16.sp
+//                )
+//            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { }
-                    .padding(16.dp)
-            ) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.baseline_settings_24),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Text(
-                    text = stringResource(id = R.string.setting),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontSize = 16.sp
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        MyApplication.getInstance().navController?.navigate(Destinations.ABOUT_ROUTE)
+                    }
                     .padding(16.dp)
             ) {
                 Icon(

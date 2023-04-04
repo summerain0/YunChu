@@ -29,6 +29,17 @@ object PackageUtils {
      * 获取自身版本名
      */
     fun getVersionNameSelf(): String {
-        return MyApplication.getInstance().packageName
+        val context = MyApplication.getInstance()
+        val packageManager: PackageManager = context.packageManager
+        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getPackageInfo(
+                context.packageName,
+                PackageManager.PackageInfoFlags.of(1.toLong())
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getPackageInfo(context.packageName, PackageManager.GET_ACTIVITIES);
+        }
+        return packageInfo.versionName
     }
 }

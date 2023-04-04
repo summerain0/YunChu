@@ -26,6 +26,19 @@
     <string name="interface_document">接口文档</string>
     <string name="report_document">举报文档</string>
     <string name="request_permission">请求权限</string>
+    <string name="about_software">关于软件</string>
+    <string name="copyright_agreement">版权声明</string>
+    <string name="minor_protection_agreement">未成年人个人信息保护政策</string>
+    <string name="privacy_policy">隐私协议</string>
+    <string name="user_agreement">用户协议</string>
+    <string name="software_version">软件版本</string>
+    <string name="developer_team">开发团队</string>
+    <string name="android_client_development">Android客户端开发</string>
+    <string name="server_development">服务端开发</string>
+    <string name="web_development">网页端开发</string>
+    <string name="open_source_license">开源许可</string>
+    <string name="more_content">更多内容</string>
+    <string name="join_qq_group">加入QQ群</string>
     <string name="qr_scanner">扫一扫</string>
 
     <string name="sign_in_or_create_an_account">登录或创建一个新账号</string>
