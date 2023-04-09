@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +41,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -45,7 +51,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -54,77 +59,93 @@ import coil.request.ImageRequest
 import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 import com.cxoip.yunchu.util.ClipboardUtils
+import com.cxoip.yunchu.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun UserScreen() {
+fun UserScreen(
+    viewModel: UserViewModel
+) {
     val hostState = remember { SnackbarHostState() }
+    val state = rememberPullRefreshState(viewModel.isLoading.value, { viewModel.refreshUser() })
     Scaffold(
         snackbarHost = { SnackbarHost(hostState) },
         modifier = Modifier.fillMaxSize()
     ) {
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .pullRefresh(state)
         ) {
-            item { Spacer(modifier = Modifier.height(8.dp)) }
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item { Spacer(modifier = Modifier.height(8.dp)) }
 
-            item {
-                UserPanel(
-                    avatarUrl = "https://q1.qlogo.cn/g?b=qq&nk=2351602624&s=640",
-                    username = "summerain0"
-                )
-            }
+                item {
+                    UserPanel(
+                        avatarUrl = if (viewModel.userQQ.isNotBlank()) {
+                            "https://q1.qlogo.cn/g?b=qq&nk=${viewModel.userQQ}&s=100"
+                        } else {
+                            "https://yunchu.cxoip.com/img/icon.png"
+                        },
+                        username = viewModel.username,
+                        autograph = viewModel.userAutograph
+                    )
+                }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item {
-                InvitationCodePanel(
-                    invitationCode = "JD-375849",
-                    hostState = hostState
-                )
-            }
+                item {
+                    InvitationCodePanel(
+                        invitationCode = viewModel.userInvitationCode,
+                        hostState = hostState
+                    )
+                }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item {
-                UserKeyPanel(
-                    key = "EgxE7NlvdIkTiBWy4kVtU4rlna0eZDyw",
-                    hostState = hostState
-                )
-            }
+                item {
+                    UserKeyPanel(
+                        key = viewModel.userAppKey,
+                        hostState = hostState
+                    )
+                }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item { ConsolePanel() }
+                item { ConsolePanel() }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item { OtherPanel() }
+                item { OtherPanel() }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    OutlinedButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = { /*TODO*/ }
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                     ) {
-                        Text(text = stringResource(id = R.string.logout))
+                        OutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { viewModel.logout() }
+                        ) {
+                            Text(text = stringResource(id = R.string.logout))
+                        }
                     }
                 }
-            }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
+            }
+            PullRefreshIndicator(
+                refreshing = viewModel.isLoading.value,
+                state = state,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }
@@ -132,7 +153,8 @@ fun UserScreen() {
 @Composable
 private fun UserPanel(
     avatarUrl: String,
-    username: String
+    username: String,
+    autograph: String
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -177,7 +199,7 @@ private fun UserPanel(
                 absoluteLeft.linkTo(usernameRef.absoluteLeft)
                 bottom.linkTo(avatarRef.bottom, 8.dp)
             },
-            text = "描述描述",
+            text = autograph,
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onPrimaryContainer.copy(stronglyDeemphasizedAlpha)
         )
@@ -491,27 +513,6 @@ private fun OtherPanel() {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .clickable { }
-//                    .padding(16.dp)
-//            ) {
-//                Icon(
-//                    modifier = Modifier.size(24.dp),
-//                    painter = painterResource(id = R.drawable.baseline_settings_24),
-//                    contentDescription = null,
-//                    tint = MaterialTheme.colorScheme.primary
-//                )
-//
-//                Spacer(modifier = Modifier.width(16.dp))
-//
-//                Text(
-//                    text = stringResource(id = R.string.setting),
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-//                    fontSize = 16.sp
-//                )
-//            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -536,13 +537,5 @@ private fun OtherPanel() {
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    YunChuTheme {
-        UserScreen()
     }
 }

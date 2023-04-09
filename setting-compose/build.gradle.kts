@@ -32,8 +32,6 @@ android {
 dependencies {
     implementation(libs.core.ktx)
 
-    implementation(libs.datastore.preferences)
-
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)

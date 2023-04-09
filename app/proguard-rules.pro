@@ -7,10 +7,12 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
--dontwarn org.slf4j.impl.StaticLoggerBinder
-
--keep class io.ktor.http.** {*;}
--keepclassmembers class io.ktor.http.** {*;}
 
 -keep class com.cxoip.yunchu.http.model.** {*;}
 -keepclassmembers class com.cxoip.yunchu.http.model.** {*;}
+
+-keep class com.cxoip.yunchu.http.service.** {*;}
+-keepclassmembers class com.cxoip.yunchu.http.service.** {*;}
+
+-keep class retrofit2.* {*;}
+

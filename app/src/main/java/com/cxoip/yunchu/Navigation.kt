@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.cxoip.yunchu.Destinations.ABOUT_ROUTE
+import com.cxoip.yunchu.Destinations.MAIN_DOCUMENT_RECYCLE_ROUTE
 import com.cxoip.yunchu.Destinations.MAIN_MY_DETAIL_ROUTE
 import com.cxoip.yunchu.Destinations.MAIN_ROUTE
 import com.cxoip.yunchu.Destinations.OPEN_SOURCE_LICENSE_ROUTE
@@ -16,6 +17,7 @@ import com.cxoip.yunchu.route.MainRoute
 import com.cxoip.yunchu.route.WelcomeRoute
 import com.cxoip.yunchu.route.auth.SignInRoute
 import com.cxoip.yunchu.route.auth.SignUpRoute
+import com.cxoip.yunchu.route.document.RecycleDocumentRoute
 import com.cxoip.yunchu.route.other.AboutRoute
 import com.cxoip.yunchu.route.other.OpenSourceLicenseRoute
 import com.cxoip.yunchu.route.scan.QRScannerRoute
@@ -37,6 +39,7 @@ object Destinations {
 
     const val MAIN_ROUTE = "main"
     const val MAIN_DOCUMENT_ROUTE = "main/document"
+    const val MAIN_DOCUMENT_RECYCLE_ROUTE = "main/document/recycle"
     const val MAIN_FILE_ROUTE = "main/file"
     const val MAIN_APPS_ROUTE = "main/apps"
     const val MAIN_MY_ROUTE = "main/my"
@@ -45,10 +48,10 @@ object Destinations {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun YunChuNavHost(navController: NavHostController) {
+fun YunChuNavHost(navController: NavHostController, startDestination: String) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = MAIN_ROUTE,
+        startDestination = startDestination,
     ) {
         composable(WELCOME_ROUTE) {
             WelcomeRoute()
@@ -90,6 +93,10 @@ fun YunChuNavHost(navController: NavHostController) {
 
         composable(route = MAIN_ROUTE) {
             MainRoute()
+        }
+
+        composable(route = MAIN_DOCUMENT_RECYCLE_ROUTE) {
+            RecycleDocumentRoute()
         }
 
         composable(route = MAIN_MY_DETAIL_ROUTE) {

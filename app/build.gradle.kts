@@ -102,40 +102,46 @@ android {
 }
 
 dependencies {
-    implementation(project(":yunchu-http"))
     implementation(project(":setting-compose"))
-
+    // Kotlin
     implementation(libs.core.ktx)
+    implementation(libs.kotlin.reflect)
+    // AndroidX
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.splashscreen.compose)
     implementation(libs.constraintlayout.compose)
-    implementation(libs.androidx.collection.ktx)
-
+    implementation(libs.collection.ktx)
+    implementation(libs.paging.compose)
+    implementation(libs.material)
+    implementation(libs.material3)
+    // Google Accompanist
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.accompanist.permissions)
-
+    // Android Camera2
     implementation(libs.camera2)
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
-
+    // Coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
-
-    implementation(libs.zxing.core)
-
-    implementation(libs.xLog)
-
+    // Sora Editor
     implementation(platform(libs.sora.editor.bom))
     implementation(libs.sora.editor)
-
+    // Jetpack Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
+
+    implementation(libs.zxing.core)
+    implementation(libs.xLog)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

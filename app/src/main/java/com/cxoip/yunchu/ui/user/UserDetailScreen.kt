@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
+import com.cxoip.yunchu.http.YunChu
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
 import com.cxoip.yunchu.util.ClipboardUtils
@@ -45,31 +46,32 @@ import kotlinx.coroutines.launch
 fun UserDetailScreen() {
     val hostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val user = YunChu.currentUser
     val data = arrayOf(
         mapOf(
             "icon" to R.drawable.ic_account_circle_outline,
             "title" to R.string.username,
-            "value" to "summerain0"
+            "value" to user?.username
         ),
         mapOf(
             "icon" to R.drawable.baseline_email_24,
             "title" to R.string.email,
-            "value" to "2351602624@qq.com"
+            "value" to user?.email
         ),
         mapOf(
             "icon" to R.drawable.baseline_cloud_queue_24,
             "title" to R.string.uid,
-            "value" to "764"
+            "value" to user?.id.toString()
         ),
         mapOf(
             "icon" to R.drawable.baseline_phone_24,
             "title" to R.string.telephone,
-            "value" to "未绑定"
+            "value" to user?.mobile
         ),
         mapOf(
             "icon" to R.drawable.baseline_chat_24,
             "title" to R.string.qq_code,
-            "value" to "2351602624"
+            "value" to user?.qq
         )
     )
     Scaffold(
@@ -144,7 +146,11 @@ fun UserDetailScreen() {
                             absoluteLeft.linkTo(iconRef.absoluteRight, 16.dp)
                             bottom.linkTo(parent.bottom, 10.dp)
                         },
-                        text = it["value"] as String,
+                        text = if (it["title"] as Int == R.string.telephone) {
+                            it["value"] as String? ?: stringResource(R.string.unbound)
+                        } else {
+                            it["value"] as String? ?: ""
+                        },
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(
                             stronglyDeemphasizedAlpha

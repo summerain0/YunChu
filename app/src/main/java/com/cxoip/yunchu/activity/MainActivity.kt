@@ -9,9 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.YunChuNavHost
 import com.cxoip.yunchu.theme.YunChuTheme
+import com.cxoip.yunchu.util.SPName
+import com.cxoip.yunchu.util.SPUtils
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +30,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberAnimatedNavController()
                     MyApplication.getInstance().navController = navController
-                    YunChuNavHost(navController)
+                    val token = SPUtils(SPName.USER).getString("token", "")
+                    YunChuNavHost(
+                        navController = navController,
+                        startDestination = if (token!!.isEmpty()) {
+                            Destinations.WELCOME_ROUTE
+                        } else {
+                            Destinations.MAIN_ROUTE
+                        }
+                    )
                 }
             }
         }

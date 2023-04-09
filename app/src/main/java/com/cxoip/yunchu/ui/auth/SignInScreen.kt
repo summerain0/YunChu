@@ -75,7 +75,7 @@ fun SignInScreen(
         ) {
             item {
                 var userAccount by remember { mutableStateOf(account ?: "") }
-                var userPassword by remember { mutableStateOf("") }
+                var userPassword by remember { mutableStateOf(viewModel.getPasswordFromPreference()) }
                 var isLoading by remember { mutableStateOf(false) }
                 var isShowPassword by remember { mutableStateOf(false) }
                 val focusManager = LocalFocusManager.current

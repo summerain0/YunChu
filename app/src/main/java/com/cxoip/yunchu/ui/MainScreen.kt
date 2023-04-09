@@ -110,7 +110,7 @@ fun MainScreen() {
         AppContent(
             paddingValues = it,
             targetPageRoute = navigationData[selectedIndex.value]["route"] as String,
-            isDisplayDocumentDetail = isDisplayDocumentDetail
+            isDisplayDocumentDetail = isDisplayDocumentDetail.value
         )
     }
 }
@@ -128,7 +128,9 @@ fun AppTopBar(
                 // 文档页面
                 Destinations.MAIN_DOCUMENT_ROUTE -> {
                     IconButton(
-                        onClick = {}
+                        onClick = {
+                            MyApplication.getInstance().navController?.navigate(Destinations.MAIN_DOCUMENT_RECYCLE_ROUTE)
+                        }
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_delete_outline_24),
@@ -193,7 +195,7 @@ fun BottomBar(
 fun AppContent(
     paddingValues: PaddingValues,
     targetPageRoute: String,
-    isDisplayDocumentDetail: MutableState<Boolean>
+    isDisplayDocumentDetail: Boolean
 ) {
     Surface(modifier = Modifier.padding(paddingValues)) {
         AnimatedContent(

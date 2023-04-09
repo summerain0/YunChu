@@ -1,11 +1,20 @@
 package com.cxoip.yunchu.ui.document
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.ui.tooling.preview.Preview
+import com.cxoip.yunchu.theme.YunChuTheme
 
 @Composable
 fun DocumentScreen(
-    isDisplayDocumentDetail: MutableState<Boolean>
+    isDisplayDocumentDetail: Boolean
 ) {
 
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    YunChuTheme {
+        DocumentScreen(isDisplayDocumentDetail = false)
+    }
 }

@@ -1,5 +1,5 @@
 [versions]
-android = "8.1.0-alpha10"
+android = "8.1.0-alpha11"
 # Kotlin
 org-jetbrains-kotlin-android = "1.8.10"
 core-ktx = "1.9.0"
@@ -17,16 +17,16 @@ splashscreen-compose = "1.0.0"
 constraintlayout-compose = "1.0.1"
 appcompat = "1.6.1"
 collection-ktx = "1.2.0"
-datastore-preferences = "1.0.0"
+paging-compose = "1.0.0-alpha18"
 # Other
 accompanist = "0.30.0"
 sora-editor = "0.21.1"
-ktor = "2.2.4"
 camera2 = "1.2.2"
 zxing = "3.5.1"
 x-log = "1.11.0"
 coil = "2.3.0"
-material = "1.8.0"
+retrofit = "2.9.0"
+okhttp = "4.10.0"
 
 [libraries]
 # Kotlin
@@ -44,12 +44,13 @@ lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-
 splashscreen-compose = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen-compose" }
 constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout-compose" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
+material = { group = "androidx.compose.material", name = "material" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collection-ktx" }
-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
+collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collection-ktx" }
 camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camera2" }
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camera2" }
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camera2" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 # zxing
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 # accompanist
@@ -66,23 +67,20 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-# Ktor
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # XLog
 xLog = { group = "com.elvishew", name = "xlog", version.ref = "x-log" }
 # coil
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android" }
 com-android-library = { id = "com.android.library", version.ref = "android" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
-org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]
 

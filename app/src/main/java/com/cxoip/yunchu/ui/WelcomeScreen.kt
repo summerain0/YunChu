@@ -37,14 +37,17 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
+import com.cxoip.yunchu.viewmodel.WelcomeViewModel
+import com.cxoip.yunchu.viewmodel.WelcomeViewModelFactory
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(viewModel: WelcomeViewModel) {
     // 是否展示顶部横幅
     var showBranding by remember { mutableStateOf(true) }
 
@@ -75,6 +78,7 @@ fun WelcomeScreen() {
 
             // 登录或注册组件
             SignInCreateAccount(
+                viewModel = viewModel,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
@@ -98,10 +102,13 @@ private fun Logo(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInCreateAccount(
+    viewModel: WelcomeViewModel,
     modifier: Modifier = Modifier,
     onFocusChange: (Boolean) -> Unit
 ) {
-    var account by rememberSaveable { mutableStateOf("") }
+    val usernameFromDisk = viewModel.getUsernameFromPreference()
+    var account by rememberSaveable { mutableStateOf(usernameFromDisk) }
+
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = stringResource(id = R.string.sign_in_or_create_an_account),
@@ -248,6 +255,7 @@ fun OrSignUp(modifier: Modifier = Modifier) {
 @Composable
 fun WelcomeScreenPreview() {
     YunChuTheme {
-        WelcomeScreen()
+        val welcomeViewModel: WelcomeViewModel = viewModel(factory = WelcomeViewModelFactory())
+        WelcomeScreen(welcomeViewModel)
     }
 }

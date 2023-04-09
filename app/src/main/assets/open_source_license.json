@@ -1,9 +1,21 @@
 [
   {
+    "name": "Accompanist",
+    "summary": "A collection of extension libraries for Jetpack Compose",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/google/accompanist"
+  },
+  {
     "name": "AndroidX",
     "summary": "Development environment for Android Jetpack extension libraries under the androidx namespace. Synchronized with Android Jetpack's primary development branch on AOSP.",
     "license": "Apache-2.0 license",
     "url": "https://github.com/androidx/androidx"
+  },
+  {
+    "name": "Coil",
+    "summary": "Image loading for Android backed by Kotlin Coroutines.",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/coil-kt/coil"
   },
   {
     "name": "Compose Multiplatform",
@@ -12,10 +24,10 @@
     "url": "https://github.com/JetBrains/compose-multiplatform"
   },
   {
-    "name": "Accompanist",
-    "summary": "A collection of extension libraries for Jetpack Compose",
-    "license": "Apache-2.0 license",
-    "url": "https://github.com/google/accompanist"
+    "name": "Compose-Settings",
+    "summary": "Android #JetpackCompose Settings library",
+    "license": "MIT license",
+    "url": "https://github.com/alorma/Compose-Settings"
   },
   {
     "name": "Sora Editor",
@@ -24,27 +36,15 @@
     "url": "https://github.com/Rosemoe/sora-editor"
   },
   {
-    "name": "zxing",
-    "summary": "ZXing (\"Zebra Crossing\") barcode scanning library for Java, Android",
-    "license": "Apache-2.0 license",
-    "url": "https://github.com/zxing/zxing"
-  },
-  {
-    "name": "Ktor",
-    "summary": "Framework for quickly creating connected applications in Kotlin with minimal effort",
-    "license": "Apache-2.0 license",
-    "url": "https://github.com/ktorio/ktor"
-  },
-  {
     "name": "XLog",
     "summary": "Android logger, pretty, powerful and flexible, log to everywhere, save to file, all you want is here.",
     "license": "Apache-2.0 license",
     "url": "https://github.com/elvishew/XLog"
   },
   {
-    "name": "coil",
-    "summary": "Image loading for Android backed by Kotlin Coroutines.",
+    "name": "ZXing",
+    "summary": "ZXing (\"Zebra Crossing\") barcode scanning library for Java, Android",
     "license": "Apache-2.0 license",
-    "url": "https://github.com/coil-kt/coil"
+    "url": "https://github.com/zxing/zxing"
   }
 ]
