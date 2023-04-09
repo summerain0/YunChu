@@ -29,7 +29,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -37,7 +36,6 @@ import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.util.ClipboardUtils
 import com.cxoip.yunchu.util.PackageUtils
 import com.cxoip.yunchu.util.getStrFromAssets
@@ -64,6 +62,22 @@ fun AboutScreen() {
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            val context = MyApplication.getInstance()
+                            val uri = Uri.parse("https://github.com/summerain0/YunChu")
+                            val intent = Intent(Intent.ACTION_VIEW, uri)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            context.startActivity(intent)
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_github),
                             contentDescription = null
                         )
                     }
@@ -282,13 +296,5 @@ fun AboutScreen() {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    YunChuTheme {
-        AboutScreen()
     }
 }

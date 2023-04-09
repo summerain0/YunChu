@@ -22,7 +22,7 @@ class TokenInterceptor : Interceptor {
         val bodyString = buffer.clone().readString(Charsets.UTF_8)
         val ajax = JSONObject(bodyString)
         val state = ajax.getInt("state")
-        if (state == 228 || state == 229) {
+        if (state == 228 || state == 229 || state == 232) {
             GlobalScope.launch(Dispatchers.Main) {
                 MyApplication.getInstance().navController?.navigate(
                     Destinations.WELCOME_ROUTE

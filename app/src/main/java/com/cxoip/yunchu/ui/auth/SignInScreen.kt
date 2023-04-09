@@ -135,13 +135,6 @@ fun SignInScreen(
                                     password = userPassword,
                                     onSuccess = {
                                         isLoading = false
-                                        scope.launch {
-                                            hostState.showSnackbar(
-                                                message = it.token,
-                                                duration = SnackbarDuration.Short,
-                                                withDismissAction = true
-                                            )
-                                        }
                                         MyApplication.getInstance().navController?.navigate(
                                             Destinations.MAIN_ROUTE
                                         ) {

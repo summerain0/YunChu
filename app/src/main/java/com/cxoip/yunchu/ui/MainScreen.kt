@@ -110,7 +110,8 @@ fun MainScreen() {
         AppContent(
             paddingValues = it,
             targetPageRoute = navigationData[selectedIndex.value]["route"] as String,
-            isDisplayDocumentDetail = isDisplayDocumentDetail.value
+            isDisplayDocumentDetail = isDisplayDocumentDetail.value,
+            hostState = hostState
         )
     }
 }
@@ -195,7 +196,8 @@ fun BottomBar(
 fun AppContent(
     paddingValues: PaddingValues,
     targetPageRoute: String,
-    isDisplayDocumentDetail: Boolean
+    isDisplayDocumentDetail: Boolean,
+    hostState: SnackbarHostState
 ) {
     Surface(modifier = Modifier.padding(paddingValues)) {
         AnimatedContent(
@@ -204,9 +206,15 @@ fun AppContent(
             label = "AnimatedContent"
         ) {
             when (it) {
-                Destinations.MAIN_DOCUMENT_ROUTE -> DocumentRoute(isDisplayDocumentDetail = isDisplayDocumentDetail)
+                Destinations.MAIN_DOCUMENT_ROUTE -> DocumentRoute(
+                    isDisplayDocumentDetail = isDisplayDocumentDetail,
+                    hostState = hostState
+                )
+
                 Destinations.MAIN_FILE_ROUTE -> FileRoute()
+
                 Destinations.MAIN_APPS_ROUTE -> AppsRoute()
+
                 Destinations.MAIN_MY_ROUTE -> UserRoute()
             }
         }

@@ -184,7 +184,8 @@ private fun UserPanel(
         )
 
         Text(
-            modifier = Modifier.constrainAs(usernameRef) {
+            modifier = Modifier
+                .constrainAs(usernameRef) {
                 absoluteLeft.linkTo(avatarRef.absoluteRight, 16.dp)
                 top.linkTo(avatarRef.top, 8.dp)
             },
