@@ -1,6 +1,7 @@
 package com.cxoip.yunchu.ui.editor
 
 import android.widget.HorizontalScrollView
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,7 @@ import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SymbolInputView
 
 private var editor: CodeEditor? = null
+private var hasSaved = true
 
 @Composable
 fun DocumentEditor(
@@ -49,8 +51,8 @@ fun DocumentEditor(
     var canDisplay by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var documentDetails by remember { mutableStateOf<DocumentDetails?>(null) }
-    var canRedo = remember { mutableStateOf(false) }
-    var canUndo = remember { mutableStateOf(false) }
+    val canRedo = remember { mutableStateOf(false) }
+    val canUndo = remember { mutableStateOf(false) }
 
     // 请求文档信息
     viewModel.getDocumentDetails(
@@ -105,6 +107,8 @@ fun DocumentEditor(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: MutableState<Boolean>) {
+    var isDisplaySaveTipsDialog by remember { mutableStateOf(false) }
+
     TopAppBar(
         title = {
             Text(text = title ?: stringResource(id = R.string.edit_document))
@@ -112,7 +116,8 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
         navigationIcon = {
             IconButton(
                 onClick = {
-                    MyApplication.getInstance().navController!!.navigateUp()
+                    if (!hasSaved) isDisplaySaveTipsDialog = true
+                    else MyApplication.getInstance().navController!!.navigateUp()
                 }
             ) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
@@ -145,6 +150,17 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
                 )
             }
 
+            IconButton(
+                onClick = {
+                    hasSaved = true
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_save_24),
+                    contentDescription = stringResource(id = R.string.save)
+                )
+            }
+
             IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
@@ -153,6 +169,39 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
             }
         }
     )
+
+    BackHandler {
+        if (!hasSaved) isDisplaySaveTipsDialog = true
+        else MyApplication.getInstance().navController!!.navigateUp()
+    }
+
+    // 返回提示
+    if (isDisplaySaveTipsDialog) {
+        AlertDialog(
+            onDismissRequest = { isDisplaySaveTipsDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        isDisplaySaveTipsDialog = false
+                        MyApplication.getInstance().navController!!.navigateUp()
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        isDisplaySaveTipsDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.tips)) },
+            text = { Text(text = "确定不保存文档直接退出吗？") },
+        )
+    }
 }
 
 @Composable
@@ -184,6 +233,7 @@ private fun AppContent(
                 editor!!.subscribeEvent(ContentChangeEvent::class.java) { _, _ ->
                     canUndo.value = editor!!.canUndo()
                     canRedo.value = editor!!.canRedo()
+                    hasSaved = false
                 }
                 editor!!
             }
@@ -211,5 +261,4 @@ private fun AppContent(
             }
         )
     }
-
 }

@@ -68,6 +68,40 @@ class DocumentViewModel : ViewModel() {
                 }
             })
     }
+
+    fun deleteDocument(
+        id: Int,
+        onSuccess: () -> Unit = {},
+        onFailure: (msg: String) -> Unit = {}
+    ) {
+        val username = spUtils.getString("username", "")!!
+        val token = spUtils.getString("token", "")!!
+        documentService.deleteDocument(
+            username = username,
+            token = token,
+            id = id
+        ).enqueue(
+            object : Callback<AjaxResult<Unit>> {
+                override fun onResponse(
+                    call: Call<AjaxResult<Unit>>,
+                    response: Response<AjaxResult<Unit>>
+                ) {
+                    val ajax = response.body()
+                    if (ajax == null) {
+                        onFailure("ajax is null")
+                    } else {
+                        val status = ajax.state
+                        if (status == 200) onSuccess()
+                        else onFailure(ajax.msg)
+                    }
+                }
+
+                override fun onFailure(call: Call<AjaxResult<Unit>>, t: Throwable) {
+                    onFailure(t.message ?: t.toString())
+                }
+            }
+        )
+    }
 }
 
 class DocumentViewModelFactory : ViewModelProvider.Factory {

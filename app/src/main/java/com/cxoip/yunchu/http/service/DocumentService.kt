@@ -24,4 +24,11 @@ interface DocumentService {
         @Query("token") token: String,
         @Query("id") id: Int
     ): Call<AjaxResult<DocumentDetails>>
+
+    @POST("text/delete/")
+    fun deleteDocument(
+        @Query("username") username: String,
+        @Query("token") token: String,
+        @Query("id") id: Int
+    ): Call<AjaxResult<Unit>>
 }

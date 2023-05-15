@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.viewmodel.DocumentViewModel
 import kotlinx.coroutines.launch
@@ -50,6 +52,7 @@ fun DocumentScreen(
             .fillMaxSize()
             .pullRefresh(pullState)
     ) {
+        val tips = stringResource(id = R.string.document_had_move_to_recycle)
         // 这是用于处理List更新时页面不会刷新的问题
         viewModel.updateCount.value
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -57,7 +60,41 @@ fun DocumentScreen(
                 DocumentItem(
                     isDisplayDocumentDetail = isDisplayDocumentDetail,
                     document = document,
-                    hostState=hostState
+                    hostState = hostState,
+                    deleteDocument = {
+                        viewModel.deleteDocument(
+                            id = it,
+                            onSuccess = {
+                                scope.launch {
+                                    hostState.showSnackbar(
+                                        message = tips,
+                                        duration = SnackbarDuration.Short,
+                                        withDismissAction = true
+                                    )
+                                }
+                                viewModel.refreshDocument(
+                                    onFailure = {
+                                        scope.launch {
+                                            hostState.showSnackbar(
+                                                message = it,
+                                                duration = SnackbarDuration.Short,
+                                                withDismissAction = true
+                                            )
+                                        }
+                                    }
+                                )
+                            },
+                            onFailure = {
+                                scope.launch {
+                                    hostState.showSnackbar(
+                                        message = it,
+                                        duration = SnackbarDuration.Short,
+                                        withDismissAction = true
+                                    )
+                                }
+                            }
+                        )
+                    }
                 )
             }
         }

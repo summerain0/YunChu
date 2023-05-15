@@ -65,13 +65,15 @@ import kotlin.math.roundToInt
 fun DocumentItem(
     isDisplayDocumentDetail: Boolean,
     document: Document,
-    hostState: SnackbarHostState
+    hostState: SnackbarHostState,
+    deleteDocument: (id: Int) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     var expanded by remember { mutableStateOf(false) }
     var copyDocumentLinkExpanded by remember { mutableStateOf(false) }
     val animatedOffset = remember { Animatable(Offset(0f, 0f), Offset.VectorConverter) }
     var isDisplayDocumentDetailsDialog by remember { mutableStateOf(false) }
+    var isDisplayDocumentDeleteDialog by remember { mutableStateOf(false) }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -273,7 +275,10 @@ fun DocumentItem(
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.delete_document)) },
-                onClick = { expanded = false }
+                onClick = {
+                    expanded = false
+                    isDisplayDocumentDeleteDialog = true
+                }
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.copy_document_link)) },
@@ -351,6 +356,34 @@ fun DocumentItem(
             onDismissRequest = { isDisplayDocumentDetailsDialog = false },
             confirmButton = {
                 TextButton(onClick = { isDisplayDocumentDetailsDialog = false }) {
+                    Text(text = stringResource(id = R.string.confirm))
+                }
+            }
+        )
+    }
+
+    // 删除文档
+    if (isDisplayDocumentDeleteDialog) {
+        AlertDialog(
+            title = { Text(text = stringResource(id = R.string.delete_document)) },
+            text = {
+                SelectionContainer {
+                    Text(text = stringResource(id = R.string.delete_document_dialog_content))
+                }
+            },
+            onDismissRequest = { isDisplayDocumentDeleteDialog = false },
+            dismissButton = {
+                TextButton(onClick = {
+                    isDisplayDocumentDeleteDialog = false
+                }) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    isDisplayDocumentDeleteDialog = false
+                    deleteDocument(document.id)
+                }) {
                     Text(text = stringResource(id = R.string.confirm))
                 }
             }
