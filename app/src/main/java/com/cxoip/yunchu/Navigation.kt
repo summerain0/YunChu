@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.cxoip.yunchu.Destinations.ABOUT_ROUTE
+import com.cxoip.yunchu.Destinations.DOCUMENT_EDITOR
 import com.cxoip.yunchu.Destinations.MAIN_DOCUMENT_RECYCLE_ROUTE
 import com.cxoip.yunchu.Destinations.MAIN_MY_DETAIL_ROUTE
 import com.cxoip.yunchu.Destinations.MAIN_ROUTE
@@ -18,6 +19,7 @@ import com.cxoip.yunchu.route.WelcomeRoute
 import com.cxoip.yunchu.route.auth.SignInRoute
 import com.cxoip.yunchu.route.auth.SignUpRoute
 import com.cxoip.yunchu.route.document.RecycleDocumentRoute
+import com.cxoip.yunchu.route.editor.DocumentEditorRoute
 import com.cxoip.yunchu.route.other.AboutRoute
 import com.cxoip.yunchu.route.other.OpenSourceLicenseRoute
 import com.cxoip.yunchu.route.scan.QRScannerRoute
@@ -36,6 +38,7 @@ object Destinations {
     const val QR_SCANNER_ROUTE = "qr-scanner"
     const val ABOUT_ROUTE = "about"
     const val OPEN_SOURCE_LICENSE_ROUTE = "open-source-license"
+    const val DOCUMENT_EDITOR = "document-editor?id={id}"
 
     const val MAIN_ROUTE = "main"
     const val MAIN_DOCUMENT_ROUTE = "main/document"
@@ -81,6 +84,11 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
         ) {
             val url = it.arguments?.getString("url") ?: "https://yunchu.cxoip.com"
             WebRoute(url = url)
+        }
+
+        composable(DOCUMENT_EDITOR) {
+            val id = (it.arguments?.getString("id") ?: "0").toInt()
+            DocumentEditorRoute(id = id)
         }
 
         composable(QR_SCANNER_ROUTE) {

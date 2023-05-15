@@ -11,52 +11,62 @@ data class Document(
 
     var author: String, // 创建者
 
-    var create: String, // 创建时间
+    @SerializedName("create")
+    var createTime: String, // 创建时间
 
-    var customid: String,// 所获取文档的自定义排序名
+    @SerializedName("customid")
+    var customName: String,// 所获取文档的自定义排序名
 
-    var hide: Int, // 是否私密
+    @SerializedName("hide")
+    var isHide: Int, // 是否私密
 
-    var html: Int, // 是否为html
+    @SerializedName("html")
+    var isHtml: Int, // 是否为html
 
-    var modify: Int, // 修改次数
+    @SerializedName("modify")
+    var updateCount: Int, // 修改次数
 
-    var modifyIp: String, // 修改者IP
+    @SerializedName("modifyIp")
+    var updaterIp: String, // 修改者IP
 
-    var modify_time: Int, // 修改时间秒数
+    @SerializedName("modify_time")
+    var updateTimestamp: Int, // 修改时间秒数
 
     var password: String, // 密码
 
-    var read: Int, // 访问次数
+    @SerializedName("read")
+    var readCount: Int, // 访问次数
 
-    var review: Int, // 是否被屏蔽
+    @SerializedName("review")
+    var isBan: Int, // 是否被屏蔽
 
+    @SerializedName("text-key")
     var textKey: String, // 文档key
 
     @SerializedName("text-url-false_json")
-    var textUrlFalseJson: String, // 文档json链接
+    var linkOfJson: String, // 文档json链接
 
     @SerializedName("text-url_css")
-    var textUrl_css: String, // 文档css链接
+    var linkOfCss: String, // 文档css链接
 
     @SerializedName("text-url_html")
-    var textUrl_html: String, // 文档html链接
+    var linkOfHtml: String, // 文档html链接
 
     @SerializedName("text-url_js")
-    var textUrl_js: String, // 文档js链接
+    var linkOfJs: String, // 文档js链接
 
     @SerializedName("text-url_md5")
-    var textUrl_md5: String, // 文档md5链接
+    var linkOfMd5: String, // 文档md5链接
 
     @SerializedName("update-update")
-    var update_update: String, // 更新URL 例 "update.php?id=224212"
+    var updateUrl: String, // 更新URL 例 "update.php?id=224212"
 
     @SerializedName("update-url_key")
-    var update_url_key: String, // 更新Key的URL 例 "updatekey.php?id=224212"
+    var updateKeyUrl: String, // 更新Key的URL 例 "updatekey.php?id=224212"
 
     @SerializedName("url-text")
-    var urlText: String, // 文档访问地址前缀
+    var accessUrlPrefix: String, // 文档访问地址前缀
 
     @SerializedName("url-update")
-    var urlUpdate: String, // 文档更新前缀
+    var updateUrlPrefix: String, // 文档更新前缀
 )

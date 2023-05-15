@@ -1,6 +1,7 @@
 package com.cxoip.yunchu.http.service
 
 import com.cxoip.yunchu.http.model.AjaxResult
+import com.cxoip.yunchu.http.model.DocumentDetails
 import com.cxoip.yunchu.http.model.DocumentPage
 import retrofit2.Call
 import retrofit2.http.POST
@@ -16,4 +17,11 @@ interface DocumentService {
         @Query("sortname") sortName: String = "update",
         @Query("sort") sort: String = "down",
     ): Call<AjaxResult<DocumentPage>>
+
+    @POST("text/update/")
+    fun getDocumentDetails(
+        @Query("username") username: String,
+        @Query("token") token: String,
+        @Query("id") id: Int
+    ): Call<AjaxResult<DocumentDetails>>
 }

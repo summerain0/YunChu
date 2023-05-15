@@ -19,30 +19,39 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.theme.YunChuTheme
+import com.cxoip.yunchu.http.model.Document
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
+import com.cxoip.yunchu.util.ClipboardUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -51,20 +60,18 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 @SuppressLint("ReturnFromAwaitPointerEventScope")
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentItem(
     isDisplayDocumentDetail: Boolean,
-    title: String,
-    desc: String,
-    id: Int,
-    createTime: String,
-    updateTime: Int,
-    viewCount: Int,
-    updateCount: Int
+    document: Document,
+    hostState: SnackbarHostState
 ) {
+    val scope = rememberCoroutineScope()
     var expanded by remember { mutableStateOf(false) }
+    var copyDocumentLinkExpanded by remember { mutableStateOf(false) }
     val animatedOffset = remember { Animatable(Offset(0f, 0f), Offset.VectorConverter) }
+    var isDisplayDocumentDetailsDialog by remember { mutableStateOf(false) }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,7 +80,8 @@ fun DocumentItem(
                 interactionSource = remember { MutableInteractionSource() },
                 onLongClick = { expanded = true },
                 onClick = {
-
+                    val navController = MyApplication.getInstance().navController!!
+                    navController.navigate("document-editor?id=${document.id}")
                 }
             )
             .pointerInput(Unit) {
@@ -118,7 +126,7 @@ fun DocumentItem(
                     bottom.linkTo(iconRef.bottom)
                 }
             },
-            text = title,
+            text = document.title,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -132,7 +140,7 @@ fun DocumentItem(
                     top.linkTo(titleRef.top)
                     bottom.linkTo(titleRef.bottom)
                 },
-            text = id.toString(),
+            text = document.id.toString(),
             fontSize = 10.sp,
             color = MaterialTheme.colorScheme.primary
         )
@@ -144,7 +152,7 @@ fun DocumentItem(
                         absoluteLeft.linkTo(iconRef.absoluteRight, 16.dp)
                         top.linkTo(titleRef.bottom)
                     },
-                text = desc,
+                text = document.desc,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontSize = 12.sp,
@@ -171,7 +179,7 @@ fun DocumentItem(
                 Spacer(modifier = Modifier.width(2.dp))
 
                 Text(
-                    text = createTime.substring(0, 10),
+                    text = document.createTime.substring(0, 10),
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -193,9 +201,7 @@ fun DocumentItem(
 
                 Text(
                     text = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                        Date(
-                            updateTime * 1000L
-                        )
+                        Date(document.updateTimestamp * 1000L)
                     ),
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
@@ -224,7 +230,7 @@ fun DocumentItem(
                 Spacer(modifier = Modifier.width(2.dp))
 
                 Text(
-                    text = viewCount.toString(),
+                    text = document.readCount.toString(),
                     fontSize = 11.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -245,7 +251,7 @@ fun DocumentItem(
                 Spacer(modifier = Modifier.width(2.dp))
 
                 Text(
-                    text = updateCount.toString(),
+                    text = document.updateCount.toString(),
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -255,6 +261,7 @@ fun DocumentItem(
 
         }
     }
+
     Box(
         modifier = Modifier.offset {
             IntOffset(
@@ -262,27 +269,91 @@ fun DocumentItem(
                 animatedOffset.value.y.roundToInt()
             )
         }) {
+        // 菜单浮窗
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             DropdownMenuItem(
-                text = { Text(text = "删除文档") },
-                onClick = { /*TODO*/ }
+                text = { Text(text = stringResource(id = R.string.delete_document)) },
+                onClick = { expanded = false }
             )
             DropdownMenuItem(
-                text = { Text(text = "复制链接") },
-                onClick = { /*TODO*/ }
+                text = { Text(text = stringResource(id = R.string.copy_document_link)) },
+                onClick = {
+                    expanded = false
+                    copyDocumentLinkExpanded = true
+                }
             )
             DropdownMenuItem(
-                text = { Text(text = "详细信息") },
-                onClick = { /*TODO*/ }
+                text = { Text(text = stringResource(id = R.string.detail_message)) },
+                onClick = {
+                    expanded = false
+                    isDisplayDocumentDetailsDialog = true
+                }
             )
         }
+        // 复制链接的二级悬浮菜单
+        DropdownMenu(
+            expanded = copyDocumentLinkExpanded,
+            onDismissRequest = { copyDocumentLinkExpanded = false }) {
+            val data = mapOf(
+                "json" to document.linkOfJson,
+                "js" to document.linkOfJs,
+                "css" to document.linkOfCss,
+                "html" to document.linkOfHtml,
+                "md5" to document.linkOfMd5,
+            )
+            val keys = data.keys
+            val tips = stringResource(id = R.string.copied_to_clipboard)
+            for (key in keys) {
+                DropdownMenuItem(
+                    text = { Text(text = key) },
+                    onClick = {
+                        copyDocumentLinkExpanded = false
+                        ClipboardUtils.set(document.accessUrlPrefix + data[key])
+                        scope.launch {
+                            hostState.showSnackbar(
+                                message = tips,
+                                duration = SnackbarDuration.Short,
+                                withDismissAction = true
+                            )
+                        }
+                    }
+                )
+            }
+        }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    YunChuTheme {
-        DocumentItem(true, "test.java", "", 0, "", 151515151, 0, 0)
+
+    // 详细信息
+    if (isDisplayDocumentDetailsDialog) {
+        AlertDialog(
+            title = { Text(text = document.title) },
+            text = {
+                SelectionContainer {
+                    Text(
+                        text = stringResource(
+                            id = R.string.document_details_content_format,
+                            formatArgs = arrayOf(
+                                document.id,
+                                document.updateCount,
+                                document.readCount,
+                                stringResource(if (document.isHtml == 1) R.string.yes else R.string.no),
+                                stringResource(if (document.isHide == 1) R.string.yes else R.string.no),
+                                document.password, document.textKey,
+                                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
+                                    Date(document.updateTimestamp * 1000L)
+                                ),
+                                document.createTime
+                            )
+                        )
+                    )
+                }
+            },
+            onDismissRequest = { isDisplayDocumentDetailsDialog = false },
+            confirmButton = {
+                TextButton(onClick = { isDisplayDocumentDetailsDialog = false }) {
+                    Text(text = stringResource(id = R.string.confirm))
+                }
+            }
+        )
     }
 }

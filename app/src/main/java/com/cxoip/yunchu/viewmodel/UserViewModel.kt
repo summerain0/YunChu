@@ -70,6 +70,7 @@ class UserViewModel : ViewModel() {
     }
 
     fun refreshUser() {
+        isLoading.value = true
         userService.getUser(getUsernameFromDisk(), getTokenFromDisk())
             .enqueue(object : Callback<AjaxResult<User>> {
                 override fun onResponse(

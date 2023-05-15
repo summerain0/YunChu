@@ -30,10 +30,16 @@
     "url": "https://github.com/alorma/Compose-Settings"
   },
   {
+    "name": "Retrofit",
+    "summary": "A type-safe HTTP client for Android and the JVM",
+    "license": "Apache-2.0 license",
+    "url": "https://github.com/Rosemoe/sora-editor"
+  },
+  {
     "name": "Sora Editor",
     "summary": "A cool code editor library on Android with syntax-highlighting and auto-completion. (aka CodeEditor)",
     "license": "LGPL-2.1 license",
-    "url": "https://github.com/Rosemoe/sora-editor"
+    "url": "https://github.com/square/retrofit"
   },
   {
     "name": "XLog",

@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.viewmodel.DocumentViewModel
-import com.elvishew.xlog.XLog
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -55,16 +54,10 @@ fun DocumentScreen(
         viewModel.updateCount.value
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             itemsIndexed(data) { _, document ->
-                XLog.d(document.toString())
                 DocumentItem(
                     isDisplayDocumentDetail = isDisplayDocumentDetail,
-                    id = document.id,
-                    title = document.title,
-                    desc = document.desc,
-                    createTime = document.create,
-                    updateTime = document.modify_time,
-                    viewCount = document.read,
-                    updateCount = document.modify
+                    document = document,
+                    hostState=hostState
                 )
             }
         }

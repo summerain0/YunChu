@@ -37,6 +37,7 @@ import com.cxoip.yunchu.route.apps.AppsRoute
 import com.cxoip.yunchu.route.document.DocumentRoute
 import com.cxoip.yunchu.route.file.FileRoute
 import com.cxoip.yunchu.route.user.UserRoute
+import com.cxoip.yunchu.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
@@ -63,13 +64,12 @@ val navigationData = arrayOf(
     )
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
     val scope = rememberCoroutineScope()
     val hostState = remember { SnackbarHostState() }
     val selectedIndex = rememberSaveable { mutableStateOf(0) }
-    var isDisplayDocumentDetail = remember { mutableStateOf(false) }
+    val isDisplayDocumentDetail = viewModel.isDisplayDocumentDetail
     BackHandler {
         scope.launch {
             val result = hostState.showSnackbar(

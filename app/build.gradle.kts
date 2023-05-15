@@ -34,11 +34,10 @@ fun String.runCommand(): String {
 android {
     namespace = "com.cxoip.yunchu"
     compileSdk = 33
-
     ndkVersion = "25.2.9519653"
 
     signingConfigs {
-        create("general") {
+        create("debugSigning") {
             storeFile = file("../debug.jks")
             storePassword = "123456"
             keyAlias = "debug"
@@ -55,6 +54,7 @@ android {
         targetSdk = 33
         versionCode = appVersionCode
         versionName = appVersionName
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -63,19 +63,17 @@ android {
 
     buildTypes {
         debug {
-            signingConfig = signingConfigs.getByName("general")
+            signingConfig = signingConfigs.getByName("debugSigning")
         }
         release {
             isDebuggable = false
             isShrinkResources = true
             isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("general")
+            signingConfig = signingConfigs.getByName("debugSigning")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            delete("build/outputs/profiling/baseline.prof")
-            delete("build/outputs/profiling/baseline.profm")
         }
     }
 

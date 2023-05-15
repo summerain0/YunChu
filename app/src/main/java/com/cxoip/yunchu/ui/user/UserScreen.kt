@@ -186,9 +186,9 @@ private fun UserPanel(
         Text(
             modifier = Modifier
                 .constrainAs(usernameRef) {
-                absoluteLeft.linkTo(avatarRef.absoluteRight, 16.dp)
-                top.linkTo(avatarRef.top, 8.dp)
-            },
+                    absoluteLeft.linkTo(avatarRef.absoluteRight, 16.dp)
+                    top.linkTo(avatarRef.top, 8.dp)
+                },
             text = username,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -342,7 +342,7 @@ private fun UserKeyPanel(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            val (cardIconRef, titleRef, shareIconRef, codeRef, updateBtnRef, copyBtnRef) = createRefs()
+            val (cardIconRef, titleRef, shareIconRef, codeRef/*, updateBtnRef*/, copyBtnRef) = createRefs()
 
             Icon(
                 modifier = Modifier
@@ -402,15 +402,15 @@ private fun UserKeyPanel(
                 textAlign = TextAlign.Center
             )
 
-            TextButton(
-                modifier = Modifier.constrainAs(updateBtnRef) {
-                    absoluteLeft.linkTo(parent.absoluteLeft)
-                    top.linkTo(codeRef.bottom, 16.dp)
-                },
-                onClick = { /*TODO*/ }
-            ) {
-                Text(text = stringResource(id = R.string.update))
-            }
+//            TextButton(
+//                modifier = Modifier.constrainAs(updateBtnRef) {
+//                    absoluteLeft.linkTo(parent.absoluteLeft)
+//                    top.linkTo(codeRef.bottom, 16.dp)
+//                },
+//                onClick = { /*TODO*/ }
+//            ) {
+//                Text(text = stringResource(id = R.string.update))
+//            }
 
             TextButton(
                 modifier = Modifier.constrainAs(copyBtnRef) {
@@ -451,7 +451,14 @@ private fun ConsolePanel() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        val context = MyApplication.getInstance()
+                        val url = "https://yunchu.cxoip.com/?action=report"
+                        val uri = Uri.parse(url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                    }
                     .padding(16.dp)
             ) {
                 Icon(
