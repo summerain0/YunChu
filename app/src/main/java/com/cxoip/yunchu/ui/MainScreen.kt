@@ -98,7 +98,11 @@ fun MainScreen(viewModel: MainViewModel) {
         },
         floatingActionButton = {
             if (navigationData[selectedIndex.value]["route"] as String == Destinations.MAIN_DOCUMENT_ROUTE) {
-                FloatingActionButton(onClick = { /*TODO*/ }) {
+                FloatingActionButton(
+                    onClick = {
+                        MyApplication.getInstance().navController!!.navigate(Destinations.DOCUMENT_CREATE)
+                    }
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_24),
                         contentDescription = null

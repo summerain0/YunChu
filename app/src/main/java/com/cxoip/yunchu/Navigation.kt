@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.cxoip.yunchu.Destinations.ABOUT_ROUTE
+import com.cxoip.yunchu.Destinations.DOCUMENT_CREATE
 import com.cxoip.yunchu.Destinations.DOCUMENT_EDITOR
 import com.cxoip.yunchu.Destinations.MAIN_DOCUMENT_RECYCLE_ROUTE
 import com.cxoip.yunchu.Destinations.MAIN_MY_DETAIL_ROUTE
@@ -18,6 +19,7 @@ import com.cxoip.yunchu.route.MainRoute
 import com.cxoip.yunchu.route.WelcomeRoute
 import com.cxoip.yunchu.route.auth.SignInRoute
 import com.cxoip.yunchu.route.auth.SignUpRoute
+import com.cxoip.yunchu.route.document.CreateDocumentRoute
 import com.cxoip.yunchu.route.document.RecycleDocumentRoute
 import com.cxoip.yunchu.route.editor.DocumentEditorRoute
 import com.cxoip.yunchu.route.other.AboutRoute
@@ -39,6 +41,7 @@ object Destinations {
     const val ABOUT_ROUTE = "about"
     const val OPEN_SOURCE_LICENSE_ROUTE = "open-source-license"
     const val DOCUMENT_EDITOR = "document-editor?id={id}"
+    const val DOCUMENT_CREATE = "document-create"
 
     const val MAIN_ROUTE = "main"
     const val MAIN_DOCUMENT_ROUTE = "main/document"
@@ -89,6 +92,10 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
         composable(DOCUMENT_EDITOR) {
             val id = (it.arguments?.getString("id") ?: "0").toInt()
             DocumentEditorRoute(id = id)
+        }
+
+        composable(DOCUMENT_CREATE) {
+            CreateDocumentRoute()
         }
 
         composable(QR_SCANNER_ROUTE) {

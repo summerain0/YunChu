@@ -11,11 +11,17 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Switch
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -24,8 +30,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +46,7 @@ import com.cxoip.yunchu.viewmodel.DocumentEditorViewModel
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SymbolInputView
+import kotlinx.coroutines.launch
 
 private var editor: CodeEditor? = null
 private var hasSaved = true
@@ -47,18 +56,17 @@ fun DocumentEditor(
     documentId: Int,
     viewModel: DocumentEditorViewModel
 ) {
-    var topBarTitle by remember { mutableStateOf<String?>(null) }
     var canDisplay by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var documentDetails by remember { mutableStateOf<DocumentDetails?>(null) }
     val canRedo = remember { mutableStateOf(false) }
     val canUndo = remember { mutableStateOf(false) }
+    val hostState = remember { SnackbarHostState() }
 
     // 请求文档信息
     viewModel.getDocumentDetails(
         id = documentId,
         onSuccess = {
-            topBarTitle = it.title
             documentDetails = it
             canDisplay = true
         },
@@ -69,7 +77,16 @@ fun DocumentEditor(
 
     // 具体页面
     Scaffold(
-        topBar = { TopBar(title = topBarTitle, canRedo = canRedo, canUndo = canUndo) },
+        snackbarHost = { SnackbarHost(hostState) },
+        topBar = {
+            TopBar(
+                hostState = hostState,
+                documentDetails = documentDetails,
+                canRedo = canRedo,
+                canUndo = canUndo,
+                viewModel = viewModel
+            )
+        },
         modifier = Modifier.fillMaxSize()
     ) {
         if (canDisplay) {
@@ -106,12 +123,20 @@ fun DocumentEditor(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: MutableState<Boolean>) {
+private fun TopBar(
+    hostState: SnackbarHostState,
+    documentDetails: DocumentDetails?,
+    canRedo: MutableState<Boolean>,
+    canUndo: MutableState<Boolean>,
+    viewModel: DocumentEditorViewModel
+) {
     var isDisplaySaveTipsDialog by remember { mutableStateOf(false) }
+    var isDisplaySettingsDialog by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     TopAppBar(
         title = {
-            Text(text = title ?: stringResource(id = R.string.edit_document))
+            Text(text = documentDetails?.title ?: stringResource(id = R.string.edit_document))
         },
         navigationIcon = {
             IconButton(
@@ -150,9 +175,32 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
                 )
             }
 
+            val successTips = stringResource(id = R.string.document_save_success)
             IconButton(
                 onClick = {
-                    hasSaved = true
+                    documentDetails?.content = editor?.text.toString()
+                    viewModel.updateDocument(
+                        documentDetails = documentDetails,
+                        onSuccess = {
+                            hasSaved = true
+                            scope.launch {
+                                hostState.showSnackbar(
+                                    message = successTips,
+                                    duration = SnackbarDuration.Short,
+                                    withDismissAction = true
+                                )
+                            }
+                        },
+                        onFailure = {
+                            scope.launch {
+                                hostState.showSnackbar(
+                                    message = it,
+                                    duration = SnackbarDuration.Short,
+                                    withDismissAction = true
+                                )
+                            }
+                        }
+                    )
                 }
             ) {
                 Icon(
@@ -161,7 +209,7 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
                 )
             }
 
-            IconButton(onClick = { }) {
+            IconButton(onClick = { isDisplaySettingsDialog = true }) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
                     contentDescription = stringResource(id = R.string.setting)
@@ -200,6 +248,85 @@ private fun TopBar(title: String?, canRedo: MutableState<Boolean>, canUndo: Muta
             },
             title = { Text(text = stringResource(id = R.string.tips)) },
             text = { Text(text = "确定不保存文档直接退出吗？") },
+        )
+    }
+
+    // 文档设置
+    if (isDisplaySettingsDialog) {
+        val hideSwitchChecked = remember { mutableStateOf(documentDetails?.hide == 1) }
+        val htmlSwitchChecked = remember { mutableStateOf(documentDetails?.html == 1) }
+        val documentPassword = remember { mutableStateOf(documentDetails?.password ?: "") }
+        val documentKey = remember { mutableStateOf(documentDetails?.key ?: "") }
+        AlertDialog(
+            onDismissRequest = { isDisplaySettingsDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        isDisplaySettingsDialog = false
+                        documentDetails?.key = documentKey.value
+                        documentDetails?.password = documentPassword.value
+                        documentDetails?.hide = if (hideSwitchChecked.value) 1 else 0
+                        documentDetails?.html = if (htmlSwitchChecked.value) 1 else 0
+                        hasSaved = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        isDisplaySettingsDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.document_settings)) },
+            text = {
+                val updateDocumentKeySuccessTips =
+                    stringResource(id = R.string.document_key_updated)
+                DocumentSettingsContent(
+                    hideSwitchChecked = hideSwitchChecked,
+                    htmlSwitchChecked = htmlSwitchChecked,
+                    documentPassword = documentPassword,
+                    documentKey = documentKey,
+                    updateDocumentKey = {
+                        if (documentDetails == null) {
+                            scope.launch {
+                                hostState.showSnackbar(
+                                    message = "document is null",
+                                    duration = SnackbarDuration.Short,
+                                    withDismissAction = true
+                                )
+                            }
+                            return@DocumentSettingsContent
+                        }
+                        viewModel.updateDocumentKey(
+                            id = documentDetails.id,
+                            onSuccess = {
+                                scope.launch {
+                                    hostState.showSnackbar(
+                                        message = updateDocumentKeySuccessTips,
+                                        duration = SnackbarDuration.Short,
+                                        withDismissAction = true
+                                    )
+                                }
+                                documentKey.value = it
+                            },
+                            onFailure = {
+                                scope.launch {
+                                    hostState.showSnackbar(
+                                        message = it,
+                                        duration = SnackbarDuration.Short,
+                                        withDismissAction = true
+                                    )
+                                }
+                            }
+                        )
+                    }
+                )
+            }
         )
     }
 }
@@ -258,6 +385,93 @@ private fun AppContent(
                 symbolInputView.bindEditor(editor)
                 horizontalScrollView.addView(symbolInputView)
                 horizontalScrollView
+            }
+        )
+    }
+}
+
+@Composable
+private fun DocumentSettingsContent(
+    hideSwitchChecked: MutableState<Boolean>,
+    htmlSwitchChecked: MutableState<Boolean>,
+    documentPassword: MutableState<String>,
+    documentKey: MutableState<String>,
+    updateDocumentKey: () -> Unit
+) {
+    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+        val (hideTextRef, hideSwitchRef, htmlTextRef, htmlSwitchRef, passwordRef, keyRef) = createRefs()
+
+        Text(
+            modifier = Modifier.constrainAs(hideTextRef) {
+                absoluteLeft.linkTo(parent.absoluteLeft)
+                top.linkTo(parent.top)
+            },
+            text = stringResource(id = R.string.hide_document)
+        )
+
+        Switch(
+            modifier = Modifier.constrainAs(hideSwitchRef) {
+                top.linkTo(hideTextRef.top)
+                bottom.linkTo(hideTextRef.bottom)
+                absoluteRight.linkTo(parent.absoluteRight)
+            },
+            checked = hideSwitchChecked.value,
+            onCheckedChange = { hideSwitchChecked.value = it }
+        )
+
+        Text(
+            modifier = Modifier.constrainAs(htmlTextRef) {
+                absoluteLeft.linkTo(parent.absoluteLeft)
+                top.linkTo(hideTextRef.bottom, 24.dp)
+            },
+            text = stringResource(id = R.string.html_type_document)
+        )
+
+        Switch(
+            modifier = Modifier.constrainAs(htmlSwitchRef) {
+                top.linkTo(htmlTextRef.top)
+                bottom.linkTo(htmlTextRef.bottom)
+                absoluteRight.linkTo(parent.absoluteRight)
+            },
+            checked = htmlSwitchChecked.value,
+            onCheckedChange = { htmlSwitchChecked.value = it }
+        )
+
+        TextField(
+            modifier = Modifier.constrainAs(passwordRef) {
+                absoluteLeft.linkTo(parent.absoluteLeft)
+                top.linkTo(htmlTextRef.bottom, 8.dp)
+            },
+            value = documentPassword.value,
+            onValueChange = { documentPassword.value = it },
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+            label = { Text(text = stringResource(id = R.string.document_password)) },
+            singleLine = true
+        )
+
+        TextField(
+            modifier = Modifier.constrainAs(keyRef) {
+                absoluteLeft.linkTo(parent.absoluteLeft)
+                top.linkTo(passwordRef.bottom, 16.dp)
+                absoluteRight.linkTo(parent.absoluteRight)
+            },
+            value = documentKey.value,
+            onValueChange = { documentKey.value = it },
+            readOnly = true,
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+            singleLine = true,
+            label = { Text(text = stringResource(id = R.string.document_private_key)) },
+            trailingIcon = {
+                IconButton(
+                    onClick = {
+                        updateDocumentKey()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_update_24),
+                        contentDescription = null
+                    )
+                }
             }
         )
     }

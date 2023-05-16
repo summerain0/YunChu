@@ -56,6 +56,12 @@
     <string name="recycle">回收站</string>
     <string name="detail_message">详细信息</string>
     <string name="delete_document">删除文档</string>
+    <string name="create_document">新建文档</string>
+    <string name="document_settings">文档设置</string>
+    <string name="hide_document">私密文档</string>
+    <string name="html_type_document">HTML文档</string>
+    <string name="document_private_key">文档密钥</string>
+    <string name="document_password">文档密码</string>
     <string name="copy_document_link">复制文档链接</string>
 
     <string name="sign_in_or_create_an_account">登录或创建一个新账号</string>
@@ -96,5 +102,7 @@
 
     <string name="qr_scanner_permission_toast">扫描二维码功能需要获取设备的摄像头权限，否则将无法正常使用扫描二维码功能</string>
     <string name="delete_document_dialog_content">是否确认将文档移动至回收站</string>
+    <string name="document_save_success">文档保存成功</string>
+    <string name="document_key_updated">文档密钥已更新</string>
     <string name="document_details_content_format">文档ID：%d\n修改次数：%d次\n浏览次数：%d次\nHTML文档：%s\n私密文档：%s\n文档密码：%s\n文档密钥：%s\n更新时间：%s\n创建时间：%s</string>
 </resources>
