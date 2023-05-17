@@ -50,7 +50,6 @@ import com.cxoip.yunchu.viewmodel.SignUpPage
 import com.cxoip.yunchu.viewmodel.SignUpScreenData
 import com.cxoip.yunchu.viewmodel.SignUpViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel) {
     // 返回事件监听，如果可以返回就返回上一步，反之关闭窗口

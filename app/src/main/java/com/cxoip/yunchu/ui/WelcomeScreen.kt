@@ -1,5 +1,7 @@
 package com.cxoip.yunchu.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -13,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -38,7 +39,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
@@ -99,7 +99,6 @@ private fun Logo(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInCreateAccount(
     viewModel: WelcomeViewModel,
@@ -240,7 +239,13 @@ fun OrSignUp(modifier: Modifier = Modifier) {
         )
         OutlinedButton(
             onClick = {
-                MyApplication.getInstance().navController?.navigate(Destinations.SIGN_UP_ROUTE)
+//                MyApplication.getInstance().navController?.navigate(Destinations.SIGN_UP_ROUTE)
+                val context = MyApplication.getInstance()
+                val url = "https://yunchu.cxoip.com/?action=regist"
+                val uri = Uri.parse(url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
             },
             modifier = Modifier
                 .fillMaxWidth()

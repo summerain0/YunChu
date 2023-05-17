@@ -1,5 +1,7 @@
 package com.cxoip.yunchu.ui.auth
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -170,7 +172,14 @@ fun SignInScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         TextButton(
-                            onClick = {},
+                            onClick = {
+                                val context = MyApplication.getInstance()
+                                val url = "https://yunchu.cxoip.com/?action=reset"
+                                val uri = Uri.parse(url)
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                context.startActivity(intent)
+                            },
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(text = stringResource(id = R.string.forgot_password))
