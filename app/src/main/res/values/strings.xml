@@ -36,6 +36,8 @@
     <string name="more">更多</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="title">标题</string>
+    <string name="content">内容</string>
     <string name="interface_document">接口文档</string>
     <string name="report_document">举报文档</string>
     <string name="request_permission">请求权限</string>
@@ -86,8 +88,11 @@
     <string name="confirm_password">确认密码</string>
     <string name="forgot_password">忘记密码</string>
     <string name="edit_document">编辑文档</string>
+    <string name="document_password_label">文档密码(留空则不设置)</string>
     <string name="document_had_move_to_recycle">文档已经移动至回收站</string>
 
+    <string name="please_enter_document_title">请输入文档标题</string>
+    <string name="please_enter_document_content">请输入文档内容</string>
     <string name="please_enter_email_address">请输入邮箱地址</string>
     <string name="please_enter_valid_email_address">请输入合法的邮箱地址</string>
     <string name="please_enter_invitation_code">请输入邀请码</string>

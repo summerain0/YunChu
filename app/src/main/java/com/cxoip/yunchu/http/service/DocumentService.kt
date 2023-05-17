@@ -29,6 +29,18 @@ interface DocumentService {
     ): Call<AjaxResult<DocumentDetails>>
 
     @FormUrlEncoded
+    @POST("text/new.php")
+    fun createDocument(
+        @Query("username") username: String,
+        @Query("token") token: String,
+        @Field("title") title: String,
+        @Field("content") content: String,
+        @Field("html") html: Int,
+        @Field("hide") hide: Int,
+        @Field("password") password: String
+    ): Call<AjaxResult<Unit>>
+
+    @FormUrlEncoded
     @POST("text/update/")
     fun updateDocument(
         @Query("username") username: String,
