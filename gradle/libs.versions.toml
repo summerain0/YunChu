@@ -26,7 +26,7 @@ zxing = "3.5.1"
 x-log = "1.11.0"
 coil = "2.3.0"
 retrofit = "2.9.0"
-okhttp = "4.10.0"
+okhttp = "4.11.0"
 
 [libraries]
 # Kotlin
