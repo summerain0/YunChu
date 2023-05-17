@@ -300,6 +300,8 @@ fun DocumentItem(
             expanded = copyDocumentLinkExpanded,
             onDismissRequest = { copyDocumentLinkExpanded = false }) {
             val data = mapOf(
+                "txt" to "${document.id}.txt",
+                "lua" to "${document.id}.lua",
                 "json" to document.linkOfJson,
                 "js" to document.linkOfJs,
                 "css" to document.linkOfCss,
