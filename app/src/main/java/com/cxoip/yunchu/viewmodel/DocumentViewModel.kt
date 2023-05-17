@@ -19,7 +19,7 @@ class DocumentViewModel : ViewModel() {
     private val spUtils = SPUtils(SPName.USER)
     var isLoading = mutableStateOf(false)
     var total = mutableStateOf(0)
-    var limit = 20
+    var limit = 100
     var page = 1
     var documentList = mutableListOf<Document>()
     var updateCount = mutableStateOf(0) // 用来通知页面刷新

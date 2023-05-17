@@ -16,7 +16,7 @@ interface DocumentService {
         @Query("username") username: String,
         @Query("token") token: String,
         @Query("page") page: Int,
-        @Query("perpage") limit: Int = 20,
+        @Query("perpage") limit: Int = 100,
         @Query("sortname") sortName: String = "update",
         @Query("sort") sort: String = "down",
     ): Call<AjaxResult<DocumentPage>>
