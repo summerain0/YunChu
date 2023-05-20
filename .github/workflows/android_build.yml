@@ -23,6 +23,9 @@ jobs:
         run: |
           openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEYSTORE_KEY }} -iv ${{ secrets.ENCRYPTED_KEYSTORE_IV }} -in summerain0.jks.enc -out summerain0.jks -d
 
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
       - name: Build and package Android project
         run: |
           chmod +x ./gradlew
