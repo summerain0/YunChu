@@ -2,6 +2,12 @@ name: Android Build
 
 on:
   push:
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+      - '.github/**'
+      - '.idea/**'
+      - '!.github/workflows/**'
     branches:
       - master
 
@@ -13,25 +19,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Decrypt keystore
         run: |
           openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEYSTORE_KEY }} -iv ${{ secrets.ENCRYPTED_KEYSTORE_IV }} -in summerain0.jks.enc -out summerain0.jks -d
 
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
+      - name: Build Release APK
+        id: build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assembleRelease
 
-      - name: Build and package Android project
+      - name: Rename APK
         run: |
-          chmod +x ./gradlew
-          ./gradlew assembleRelease
           APK_NAME="云储-$(./gradlew -q printVersionName)"
           mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/$APK_NAME.apk
+
+      - name: Sign APK
+        run: |
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore summerain0.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} app/build/outputs/apk/release/$APK_NAME.apk key-alias
 
       - name: Upload APK artifact
