@@ -49,6 +49,7 @@ jobs:
 
       - name: Sign APK
         run: |
+          APK_NAME="${{ env.APK_NAME }}"
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore summerain0.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} app/build/outputs/apk/release/$APK_NAME.apk ${{ secrets.KEY_ALIAS }}
 
       - name: Upload APK artifact
