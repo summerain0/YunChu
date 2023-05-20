@@ -46,7 +46,7 @@ jobs:
         run: |
           APK_NAME="云储-$(./gradlew -q printVersionName)"
           mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/$APK_NAME.apk
-          echo "::set-env name=APK_NAME::$APK_NAME"
+          echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
 
       - name: Sign APK
         run: |
