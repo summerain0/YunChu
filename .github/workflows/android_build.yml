@@ -45,14 +45,14 @@ jobs:
       - name: Rename APK
         run: |
           APK_NAME="云储-$(./gradlew -q printVersionName)"
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/$APK_NAME.apk
+          mv app/release/app-release.apk app/release/$APK_NAME.apk
 
       - name: Sign APK
         run: |
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore summerain0.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} app/build/outputs/apk/release/$APK_NAME.apk key-alias
+          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore summerain0.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} app/release/$APK_NAME.apk key-alias
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.APK_NAME }}
-          path: app/build/outputs/apk/release/$APK_NAME.apk
+          path: app/release/$APK_NAME.apk
