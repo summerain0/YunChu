@@ -18,9 +18,6 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Set up CMake
-        uses: andstor/setup-cmake@v1
-
       - name: Decrypt keystore
         run: |
           openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEYSTORE_KEY }} -iv ${{ secrets.ENCRYPTED_KEYSTORE_IV }} -in summerain0.jks.enc -out summerain0.jks -d
