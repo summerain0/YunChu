@@ -30,6 +30,9 @@ jobs:
         run: |
           openssl aes-256-cbc -K ${{ secrets.ENCRYPTED_KEYSTORE_KEY }} -iv ${{ secrets.ENCRYPTED_KEYSTORE_IV }} -in summerain0.jks.enc -out summerain0.jks -d
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Build Release APK
         id: build
         uses: gradle/gradle-build-action@v2
