@@ -66,7 +66,7 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
         composable(
             route = SIGN_IN_ROUTE,
             enterTransition = { slideIntoContainerLeft() },
-            exitTransition = { slideIntoContainerRight() },
+            exitTransition = { slideIntoContainerRight() }
         ) {
             val account = it.arguments?.getString("account")
             SignInRoute(account = account)
@@ -75,7 +75,7 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
         composable(
             route = SIGN_UP_ROUTE,
             enterTransition = { slideIntoContainerLeft() },
-            exitTransition = { slideIntoContainerRight() },
+            exitTransition = { slideIntoContainerRight() }
         ) {
             SignUpRoute()
         }
@@ -83,42 +83,70 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
         composable(
             route = WEB_ROUTE,
             enterTransition = { slideIntoContainerLeft() },
-            exitTransition = { slideIntoContainerRight() },
+            exitTransition = { slideIntoContainerRight() }
         ) {
             val url = it.arguments?.getString("url") ?: "https://yunchu.cxoip.com"
             WebRoute(url = url)
         }
 
-        composable(DOCUMENT_EDITOR) {
+        composable(
+            route = DOCUMENT_EDITOR,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             val id = (it.arguments?.getString("id") ?: "0").toInt()
             DocumentEditorRoute(id = id)
         }
 
-        composable(DOCUMENT_CREATE) {
+        composable(
+            route = DOCUMENT_CREATE,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             CreateDocumentRoute()
         }
 
-        composable(QR_SCANNER_ROUTE) {
+        composable(
+            route = QR_SCANNER_ROUTE,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             QRScannerRoute()
         }
 
-        composable(ABOUT_ROUTE) {
+        composable(
+            route = ABOUT_ROUTE,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             AboutRoute()
         }
 
-        composable(route = MAIN_ROUTE) {
+        composable(
+            route = MAIN_ROUTE
+        ) {
             MainRoute()
         }
 
-        composable(route = MAIN_DOCUMENT_RECYCLE_ROUTE) {
+        composable(
+            route = MAIN_DOCUMENT_RECYCLE_ROUTE
+        ) {
             RecycleDocumentRoute()
         }
 
-        composable(route = MAIN_MY_DETAIL_ROUTE) {
+        composable(
+            route = MAIN_MY_DETAIL_ROUTE,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             UserDetailRoute()
         }
 
-        composable(route = OPEN_SOURCE_LICENSE_ROUTE) {
+        composable(
+            route = OPEN_SOURCE_LICENSE_ROUTE,
+            enterTransition = { slideIntoContainerLeft() },
+            exitTransition = { slideIntoContainerRight() }
+        ) {
             OpenSourceLicenseRoute()
         }
     }
