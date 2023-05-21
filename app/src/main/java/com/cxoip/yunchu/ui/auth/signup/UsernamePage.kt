@@ -2,8 +2,6 @@ package com.cxoip.yunchu.ui.auth.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
@@ -58,7 +57,7 @@ fun UsernamePage(modifier: Modifier, viewModel: SignUpViewModel) {
             },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Filled.AccountCircle,
+                    painter = painterResource(id = R.drawable.outline_account_circle_24),
                     contentDescription = null
                 )
             }

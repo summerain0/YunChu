@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,7 +58,7 @@ fun ConfirmPasswordPage(modifier: Modifier, viewModel: SignUpViewModel) {
                     Text(text = it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription = null) },
+            leadingIcon = { Icon(imageVector = Icons.Outlined.Lock, contentDescription = null) },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
     }

@@ -10,8 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Switch
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -153,7 +152,7 @@ private fun TopBar(
                     else MyApplication.getInstance().navController!!.navigateUp()
                 }
             ) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
         },
         actions = {
@@ -165,7 +164,7 @@ private fun TopBar(
                 enabled = canUndo.value
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_undo_24),
+                    painter = painterResource(id = R.drawable.outline_undo_24),
                     contentDescription = null
                 )
             }
@@ -178,7 +177,7 @@ private fun TopBar(
                 enabled = canRedo.value
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_redo_24),
+                    painter = painterResource(id = R.drawable.outline_redo_24),
                     contentDescription = stringResource(id = R.string.redo)
                 )
             }
@@ -212,14 +211,14 @@ private fun TopBar(
                 }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_save_24),
+                    painter = painterResource(id = R.drawable.outline_save_24),
                     contentDescription = stringResource(id = R.string.save)
                 )
             }
 
             IconButton(onClick = { isDisplaySettingsDialog = true }) {
                 Icon(
-                    imageVector = Icons.Filled.Settings,
+                    painterResource(id = R.drawable.outline_settings_24),
                     contentDescription = stringResource(id = R.string.setting)
                 )
             }
@@ -522,7 +521,7 @@ private fun DocumentSettingsContent(
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_update_24),
+                        painter = painterResource(id = R.drawable.outline_update_24),
                         contentDescription = null
                     )
                 }

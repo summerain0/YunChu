@@ -18,8 +18,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -211,7 +211,7 @@ private fun UserPanel(
                 bottom.linkTo(parent.bottom)
                 absoluteRight.linkTo(parent.absoluteRight, 16.dp)
             },
-            imageVector = Icons.Filled.KeyboardArrowRight,
+            imageVector = Icons.Outlined.KeyboardArrowRight,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(stronglyDeemphasizedAlpha)
         )
@@ -244,7 +244,7 @@ private fun InvitationCodePanel(
                         absoluteLeft.linkTo(parent.absoluteLeft)
                         top.linkTo(parent.top)
                     },
-                painter = painterResource(id = R.drawable.ic_account_group_outline),
+                painter = painterResource(id = R.drawable.outline_groups_24),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -280,7 +280,7 @@ private fun InvitationCodePanel(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Share,
+                    imageVector = Icons.Outlined.Share,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -351,7 +351,7 @@ private fun UserKeyPanel(
                         absoluteLeft.linkTo(parent.absoluteLeft)
                         top.linkTo(parent.top)
                     },
-                painter = painterResource(id = R.drawable.ic_shield_key_outline),
+                painter = painterResource(id = R.drawable.outline_shield_key_24),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -378,7 +378,7 @@ private fun UserKeyPanel(
             ) {
                 Icon(
                     painter = painterResource(
-                        id = if (isShowKey) R.drawable.baseline_visibility_24 else R.drawable.baseline_visibility_off_24
+                        id = if (isShowKey) R.drawable.outline_visibility_24 else R.drawable.outline_visibility_off_24
                     ),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
@@ -463,7 +463,7 @@ private fun ConsolePanel() {
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.baseline_report_24),
+                    painter = painterResource(id = R.drawable.outline_report_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -491,7 +491,7 @@ private fun ConsolePanel() {
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.baseline_menu_book_24),
+                    painter = painterResource(id = R.drawable.outline_menu_book_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -531,7 +531,7 @@ private fun OtherPanel() {
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = R.drawable.baseline_info_24),
+                    painter = painterResource(id = R.drawable.outline_info_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )

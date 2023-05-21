@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -145,13 +146,13 @@ private fun AppBar() {
                     MyApplication.getInstance().navController?.navigateUp()
                 }
             ) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
         },
         actions = {
             IconButton(onClick = { isShowTipsDialog = true }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_question_mark_24),
+                    painter = painterResource(id = R.drawable.outline_question_mark_24),
                     contentDescription = null
                 )
             }
@@ -194,7 +195,7 @@ private fun DocumentItem(
                     top.linkTo(parent.top, 16.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
-            painter = painterResource(id = R.drawable.ic_file_document_outline),
+            painter = painterResource(id = R.drawable.outline_file_document_24),
             contentDescription = null
         )
 

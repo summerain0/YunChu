@@ -9,7 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Switch
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -88,7 +88,7 @@ private fun TopBar(
         title = { Text(text = stringResource(id = R.string.create_document)) },
         navigationIcon = {
             IconButton(onClick = { MyApplication.getInstance().navController!!.navigateUp() }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
         },
         actions = {
@@ -140,7 +140,7 @@ private fun TopBar(
                 }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_done_24),
+                    painter = painterResource(id = R.drawable.outline_done_24),
                     contentDescription = null
                 )
             }

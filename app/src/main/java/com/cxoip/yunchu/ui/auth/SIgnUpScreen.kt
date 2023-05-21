@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -99,7 +99,7 @@ fun AppTopBar(signUpScreenData: SignUpScreenData) {
                         MyApplication.getInstance().navController?.navigateUp()
                     }
                 ) {
-                    Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+                    Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
                 }
             }
         )

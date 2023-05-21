@@ -114,7 +114,7 @@ fun DocumentItem(
                     top.linkTo(parent.top, 16.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
-            painter = painterResource(id = R.drawable.ic_file_document_outline),
+            painter = painterResource(id = R.drawable.outline_file_document_24),
             contentDescription = null
         )
 
@@ -171,7 +171,7 @@ fun DocumentItem(
             ) {
                 Icon(
                     modifier = Modifier.size(12.dp),
-                    painter = painterResource(id = R.drawable.baseline_note_add_24),
+                    painter = painterResource(id = R.drawable.outline_note_add_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -192,7 +192,7 @@ fun DocumentItem(
 
                 Icon(
                     modifier = Modifier.size(12.dp),
-                    painter = painterResource(id = R.drawable.baseline_edit_24),
+                    painter = painterResource(id = R.drawable.outline_edit_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -222,7 +222,7 @@ fun DocumentItem(
             ) {
                 Icon(
                     modifier = Modifier.size(12.dp),
-                    painter = painterResource(id = R.drawable.baseline_visibility_24),
+                    painter = painterResource(id = R.drawable.outline_visibility_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha
@@ -243,7 +243,7 @@ fun DocumentItem(
 
                 Icon(
                     modifier = Modifier.size(12.dp),
-                    painter = painterResource(id = R.drawable.baseline_edit_24),
+                    painter = painterResource(id = R.drawable.outline_edit_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                         stronglyDeemphasizedAlpha

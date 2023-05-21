@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,7 +61,7 @@ fun AboutScreen() {
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = null
                         )
                     }
@@ -77,7 +77,7 @@ fun AboutScreen() {
                         }
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_github),
+                            painter = painterResource(id = R.drawable.outline_github_24),
                             contentDescription = null
                         )
                     }
@@ -100,7 +100,7 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_cloud_queue_24),
+                                painter = painterResource(id = R.drawable.outline_cloud_24),
                                 contentDescription = null
                             )
                         },
@@ -124,14 +124,14 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_copyright_24),
+                                painter = painterResource(id = R.drawable.outline_copyright_24),
                                 contentDescription = null
                             )
                         },
                         title = { Text(text = stringResource(id = R.string.copyright_agreement)) },
                         action = {
                             Icon(
-                                imageVector = Icons.Filled.KeyboardArrowRight,
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
                                 contentDescription = null
                             )
                         },
@@ -142,14 +142,14 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_account_child_24),
+                                painter = painterResource(id = R.drawable.outline_child_care_24),
                                 contentDescription = null
                             )
                         },
                         title = { Text(text = stringResource(id = R.string.minor_protection_agreement)) },
                         action = {
                             Icon(
-                                imageVector = Icons.Filled.KeyboardArrowRight,
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
                                 contentDescription = null
                             )
                         },
@@ -160,14 +160,14 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_file_lock_24),
+                                painter = painterResource(id = R.drawable.outline_privacy_tip_24),
                                 contentDescription = null
                             )
                         },
                         title = { Text(text = stringResource(id = R.string.privacy_policy)) },
                         action = {
                             Icon(
-                                imageVector = Icons.Filled.KeyboardArrowRight,
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
                                 contentDescription = null
                             )
                         },
@@ -178,14 +178,14 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_shield_account_24),
+                                painter = painterResource(id = R.drawable.outline_shield_24),
                                 contentDescription = null
                             )
                         },
                         title = { Text(text = stringResource(id = R.string.user_agreement)) },
                         action = {
                             Icon(
-                                imageVector = Icons.Filled.KeyboardArrowRight,
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
                                 contentDescription = null
                             )
                         },
@@ -232,7 +232,7 @@ fun AboutScreen() {
                             },
                             action = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.baseline_launch_24),
+                                    painter = painterResource(id = R.drawable.outline_launch_24),
                                     contentDescription = null
                                 )
                             },
@@ -251,14 +251,14 @@ fun AboutScreen() {
                     SettingsMenuLink(
                         icon = {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_shield_account_24),
+                                painter = painterResource(id = R.drawable.outline_shield_24),
                                 contentDescription = null
                             )
                         },
                         title = { Text(text = stringResource(id = R.string.open_source_license)) },
                         action = {
                             Icon(
-                                imageVector = Icons.Filled.KeyboardArrowRight,
+                                imageVector = Icons.Outlined.KeyboardArrowRight,
                                 contentDescription = null
                             )
                         },
@@ -271,7 +271,7 @@ fun AboutScreen() {
                         SettingsMenuLink(
                             icon = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.baseline_groups_24),
+                                    painter = painterResource(id = R.drawable.outline_groups_24),
                                     contentDescription = null
                                 )
                             },
@@ -279,7 +279,7 @@ fun AboutScreen() {
                             subtitle = { Text(text = "681272632") },
                             action = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.baseline_launch_24),
+                                    painter = painterResource(id = R.drawable.outline_launch_24),
                                     contentDescription = null
                                 )
                             },

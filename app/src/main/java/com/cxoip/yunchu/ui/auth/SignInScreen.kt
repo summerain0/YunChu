@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -65,7 +65,7 @@ fun SignInScreen(
                         MyApplication.getInstance().navController?.navigateUp()
                     }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = null
                         )
                     }
@@ -112,14 +112,14 @@ fun SignInScreen(
                                 if (isShowPassword) {
                                     IconButton(onClick = { isShowPassword = false }) {
                                         Icon(
-                                            painter = painterResource(id = R.drawable.baseline_visibility_24),
+                                            painter = painterResource(id = R.drawable.outline_visibility_24),
                                             contentDescription = null
                                         )
                                     }
                                 } else {
                                     IconButton(onClick = { isShowPassword = true }) {
                                         Icon(
-                                            painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+                                            painter = painterResource(id = R.drawable.outline_visibility_off_24),
                                             contentDescription = null
                                         )
                                     }

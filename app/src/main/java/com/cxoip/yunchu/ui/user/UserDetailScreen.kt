@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,27 +51,27 @@ fun UserDetailScreen() {
     val user = YunChu.currentUser
     val data = arrayOf(
         mapOf(
-            "icon" to R.drawable.ic_account_circle_outline,
+            "icon" to R.drawable.outline_account_circle_24,
             "title" to R.string.username,
             "value" to user?.username
         ),
         mapOf(
-            "icon" to R.drawable.baseline_email_24,
+            "icon" to R.drawable.outline_email_24,
             "title" to R.string.email,
             "value" to user?.email
         ),
         mapOf(
-            "icon" to R.drawable.baseline_cloud_queue_24,
+            "icon" to R.drawable.outline_cloud_24,
             "title" to R.string.uid,
             "value" to user?.id.toString()
         ),
         mapOf(
-            "icon" to R.drawable.baseline_phone_24,
+            "icon" to R.drawable.outline_phone_24,
             "title" to R.string.telephone,
             "value" to user?.mobile
         ),
         mapOf(
-            "icon" to R.drawable.baseline_chat_24,
+            "icon" to R.drawable.outline_chat_24,
             "title" to R.string.qq_code,
             "value" to user?.qq
         )
@@ -88,7 +88,7 @@ fun UserDetailScreen() {
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.Outlined.ArrowBack,
                             contentDescription = null
                         )
                     }
@@ -122,7 +122,7 @@ fun UserDetailScreen() {
 
                     Icon(
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(24.dp)
                             .constrainAs(iconRef) {
                                 absoluteLeft.linkTo(parent.absoluteLeft, 16.dp)
                                 top.linkTo(parent.top, 16.dp)
@@ -136,7 +136,7 @@ fun UserDetailScreen() {
                     Text(
                         modifier = Modifier.constrainAs(titleRef) {
                             absoluteLeft.linkTo(iconRef.absoluteRight, 16.dp)
-                            top.linkTo(parent.top, 10.dp)
+                            top.linkTo(parent.top, 8.dp)
                         },
                         text = stringResource(id = it["title"] as Int),
                         fontSize = 16.sp,
@@ -146,14 +146,14 @@ fun UserDetailScreen() {
                     Text(
                         modifier = Modifier.constrainAs(valueRef) {
                             absoluteLeft.linkTo(iconRef.absoluteRight, 16.dp)
-                            bottom.linkTo(parent.bottom, 10.dp)
+                            bottom.linkTo(parent.bottom, 8.dp)
                         },
                         text = if (it["title"] as Int == R.string.telephone) {
                             it["value"] as String? ?: stringResource(R.string.unbound)
                         } else {
                             it["value"] as String? ?: ""
                         },
-                        fontSize = 14.sp,
+                        fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(
                             stronglyDeemphasizedAlpha
                         )
@@ -175,8 +175,8 @@ fun UserDetailScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Icons.Filled.Lock,
+                    modifier = Modifier.size(24.dp),
+                    imageVector = Icons.Outlined.Lock,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )

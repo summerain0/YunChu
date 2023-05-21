@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,8 +27,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
-import com.cxoip.yunchu.util.TextFieldState
 import com.cxoip.yunchu.util.Constants
+import com.cxoip.yunchu.util.TextFieldState
 import com.cxoip.yunchu.viewmodel.SignUpViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +83,7 @@ fun EmailAndInvitationCodePage(modifier: Modifier, viewModel: SignUpViewModel) {
                     Text(text = it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription = null) },
+            leadingIcon = { Icon(imageVector = Icons.Outlined.Email, contentDescription = null) },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
         )
 
@@ -110,7 +110,7 @@ fun EmailAndInvitationCodePage(modifier: Modifier, viewModel: SignUpViewModel) {
                     Text(text = it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Share, contentDescription = null) }
+            leadingIcon = { Icon(imageVector = Icons.Outlined.Share, contentDescription = null) }
         )
         Row(
             modifier = Modifier.fillMaxWidth(),

@@ -44,22 +44,22 @@ import kotlin.system.exitProcess
 val navigationData = arrayOf(
     mapOf(
         "label" to R.string.document,
-        "icon" to R.drawable.ic_file_document_outline,
+        "icon" to R.drawable.outline_file_document_24,
         "route" to Destinations.MAIN_DOCUMENT_ROUTE
     ),
     mapOf(
         "label" to R.string.file,
-        "icon" to R.drawable.ic_file_outline,
+        "icon" to R.drawable.outline_file_24,
         "route" to Destinations.MAIN_FILE_ROUTE
     ),
     mapOf(
         "label" to R.string.apps,
-        "icon" to R.drawable.ic_apps,
+        "icon" to R.drawable.outline_apps_24,
         "route" to Destinations.MAIN_APPS_ROUTE
     ),
     mapOf(
         "label" to R.string.my,
-        "icon" to R.drawable.ic_account_circle_outline,
+        "icon" to R.drawable.outline_account_circle_24,
         "route" to Destinations.MAIN_MY_ROUTE
     )
 )
@@ -104,7 +104,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_add_24),
+                        painter = painterResource(id = R.drawable.outline_add_24),
                         contentDescription = null
                     )
                 }
@@ -138,7 +138,7 @@ fun AppTopBar(
                         }
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+                            painter = painterResource(id = R.drawable.outline_delete_24),
                             contentDescription = null
                         )
                     }
@@ -146,7 +146,7 @@ fun AppTopBar(
                         onClick = { isDisplayDocumentDetail.value = !isDisplayDocumentDetail.value }
                     ) {
                         Icon(
-                            painter = painterResource(id = if (isDisplayDocumentDetail.value) R.drawable.baseline_list_24 else R.drawable.baseline_view_list_24),
+                            painter = painterResource(id = if (isDisplayDocumentDetail.value) R.drawable.outline_list_24 else R.drawable.outline_view_list_24),
                             contentDescription = null
                         )
                     }
@@ -160,7 +160,7 @@ fun AppTopBar(
                         }
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+                            painter = painterResource(id = R.drawable.outline_qr_code_scanner_24),
                             contentDescription = null
                         )
                     }
