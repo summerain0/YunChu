@@ -46,10 +46,10 @@ android {
             this.enableV2Signing = true
             this.enableV3Signing = true
         }
-        create("release") {
+        create("releaseSigning") {
             storeFile = file("../summerain0.jks")
             storePassword = System.getenv("KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("KEYSTORE_ALIAS")
+            keyAlias = System.getenv("KEY_ALIAS")
             keyPassword = System.getenv("KEY_PASSWORD")
             this.enableV1Signing = true
             this.enableV2Signing = true
@@ -75,7 +75,7 @@ android {
             signingConfig = signingConfigs.getByName("debugSigning")
         }
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("releaseSigning")
             isDebuggable = false
             isShrinkResources = true
             isMinifyEnabled = true
