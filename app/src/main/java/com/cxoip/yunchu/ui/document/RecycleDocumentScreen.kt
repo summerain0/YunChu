@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -145,7 +145,7 @@ private fun AppBar() {
                     MyApplication.getInstance().navController?.navigateUp()
                 }
             ) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
             }
         },
         actions = {
