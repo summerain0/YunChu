@@ -4,4 +4,5 @@ import com.cxoip.yunchu.http.model.User
 
 object YunChu {
     var currentUser: User? = null
+    var onUnAuthenticationListener: () -> Unit = {}
 }

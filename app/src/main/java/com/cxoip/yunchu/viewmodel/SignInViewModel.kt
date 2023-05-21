@@ -51,13 +51,14 @@ class SignInViewModel : ViewModel() {
                     } else {
                         val state = ajax.state
                         if (state == ResponseCode.SUCCESS) {
+                            val data = ajax.data
                             if (ajax.data == null) {
                                 onFailure("data is null")
                             } else {
                                 saveUsernameToPreference(username)
                                 savePasswordToPreference(password)
-                                saveTokenToPreference(ajax.data.token)
-                                onSuccess(ajax.data)
+                                saveTokenToPreference(ajax.data!!.token)
+                                onSuccess(ajax.data!!)
                             }
                         } else {
                             onFailure(ajax.msg)

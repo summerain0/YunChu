@@ -27,6 +27,7 @@ x-log = "1.11.0"
 coil = "2.3.0"
 retrofit = "2.9.0"
 okhttp = "4.11.0"
+material = "1.8.0"
 
 [libraries]
 # Kotlin
@@ -76,6 +77,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+com-google-android-material-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android" }

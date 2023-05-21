@@ -110,6 +110,7 @@ android {
 
 dependencies {
     implementation(project(":setting-compose"))
+    implementation(project(":yunchu-http"))
     // Kotlin
     implementation(libs.core.ktx)
     implementation(libs.kotlin.reflect)

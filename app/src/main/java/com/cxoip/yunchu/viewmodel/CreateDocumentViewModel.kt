@@ -10,7 +10,6 @@ import com.cxoip.yunchu.util.SPUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.UUID
 
 class CreateDocumentViewModel : ViewModel() {
     private val documentService = ServiceCreator.create(DocumentService::class.java)

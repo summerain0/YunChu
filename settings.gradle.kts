@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":yunchu-http")
+
+
 pluginManagement {
     repositories {
         google()
