@@ -2,6 +2,7 @@ package com.cxoip.yunchu.ui.editor
 
 import android.widget.HorizontalScrollView
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -130,11 +132,19 @@ private fun TopBar(
 ) {
     var isDisplaySaveTipsDialog by remember { mutableStateOf(false) }
     var isDisplaySettingsDialog by remember { mutableStateOf(false) }
+    var isDisplayUpdateTitleDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     TopAppBar(
         title = {
-            Text(text = documentDetails?.title ?: stringResource(id = R.string.edit_document))
+            Text(
+                modifier = Modifier.clickable {
+                    isDisplayUpdateTitleDialog = true
+                },
+                text = documentDetails?.title ?: stringResource(id = R.string.edit_document),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         },
         navigationIcon = {
             IconButton(
@@ -245,7 +255,55 @@ private fun TopBar(
                 }
             },
             title = { Text(text = stringResource(id = R.string.tips)) },
-            text = { Text(text = "确定不保存文档直接退出吗？") },
+            text = { Text(text = stringResource(id = R.string.exiting_document_editing_dialog_content)) },
+        )
+    }
+
+    // 修改标题对话框
+    if (isDisplayUpdateTitleDialog) {
+        var newDocumentTitle by remember { mutableStateOf(documentDetails?.title ?: "") }
+        val titleBlankTips = stringResource(id = R.string.please_enter_document_title)
+        AlertDialog(
+            onDismissRequest = { isDisplayUpdateTitleDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        if (newDocumentTitle.isBlank()) {
+                            scope.launch {
+                                hostState.showSnackbar(
+                                    message = titleBlankTips,
+                                    duration = SnackbarDuration.Short,
+                                    withDismissAction = true
+                                )
+                            }
+                        } else {
+                            documentDetails?.title = newDocumentTitle
+                            hasSaved = false
+                            isDisplayUpdateTitleDialog = false
+                        }
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        isDisplayUpdateTitleDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.edit_document_title)) },
+            text = {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = newDocumentTitle,
+                    onValueChange = { newDocumentTitle = it },
+                    singleLine = true
+                )
+            }
         )
     }
 
