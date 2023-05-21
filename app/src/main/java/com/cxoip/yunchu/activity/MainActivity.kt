@@ -13,8 +13,7 @@ import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.YunChuNavHost
 import com.cxoip.yunchu.theme.YunChuTheme
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 class MainActivity : ComponentActivity() {
@@ -30,10 +29,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberAnimatedNavController()
                     MyApplication.getInstance().navController = navController
-                    val token = SPUtils(SPName.USER).getString("token", "")
+                    val token = UserUtils.getToken()
                     YunChuNavHost(
                         navController = navController,
-                        startDestination = if (token!!.isEmpty()) {
+                        startDestination = if (token.isBlank()) {
                             Destinations.WELCOME_ROUTE
                         } else {
                             Destinations.MAIN_ROUTE

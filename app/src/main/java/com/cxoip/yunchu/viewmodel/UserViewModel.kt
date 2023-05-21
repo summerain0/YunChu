@@ -10,15 +10,13 @@ import com.cxoip.yunchu.http.YunChu
 import com.cxoip.yunchu.http.model.AjaxResult
 import com.cxoip.yunchu.http.model.User
 import com.cxoip.yunchu.http.service.UserService
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserViewModel : ViewModel() {
     private val userService = ServiceCreator.create(UserService::class.java)
-    private val spUtils = SPUtils(SPName.USER)
     private var user: User? = null
 
     // 是否是刷新状态
@@ -71,7 +69,7 @@ class UserViewModel : ViewModel() {
 
     fun refreshUser() {
         isLoading.value = true
-        userService.getUser(getUsernameFromDisk(), getTokenFromDisk())
+        userService.getUser(UserUtils.getUsername(), UserUtils.getToken())
             .enqueue(object : Callback<AjaxResult<User>> {
                 override fun onResponse(
                     call: Call<AjaxResult<User>>,
@@ -101,7 +99,7 @@ class UserViewModel : ViewModel() {
     fun logout() {
         val user = YunChu.currentUser
         val username = user?.username
-        val token = getTokenFromDisk()
+        val token = UserUtils.getToken()
         if (username.isNullOrBlank() || token.isBlank()) {
             clearToken()
         } else {
@@ -127,12 +125,8 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    private fun getUsernameFromDisk() = spUtils.getString("username", "")!!
-
-    private fun getTokenFromDisk() = spUtils.getString("token", "")!!
-
     private fun clearToken() {
-        spUtils.remove("token")
+        UserUtils.removeToken()
     }
 }
 

@@ -43,6 +43,7 @@ import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
 import com.cxoip.yunchu.theme.YunChuTheme
 import com.cxoip.yunchu.theme.stronglyDeemphasizedAlpha
+import com.cxoip.yunchu.util.UserUtils
 import com.cxoip.yunchu.viewmodel.WelcomeViewModel
 import com.cxoip.yunchu.viewmodel.WelcomeViewModelFactory
 
@@ -105,8 +106,7 @@ private fun SignInCreateAccount(
     modifier: Modifier = Modifier,
     onFocusChange: (Boolean) -> Unit
 ) {
-    val usernameFromDisk = viewModel.getUsernameFromPreference()
-    var account by rememberSaveable { mutableStateOf(usernameFromDisk) }
+    var account by rememberSaveable { mutableStateOf(UserUtils.getUsername()) }
 
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(

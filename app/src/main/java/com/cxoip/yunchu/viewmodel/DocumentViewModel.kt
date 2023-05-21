@@ -8,15 +8,13 @@ import com.cxoip.yunchu.http.model.AjaxResult
 import com.cxoip.yunchu.http.model.Document
 import com.cxoip.yunchu.http.model.DocumentPage
 import com.cxoip.yunchu.http.service.DocumentService
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class DocumentViewModel : ViewModel() {
     private val documentService = ServiceCreator.create(DocumentService::class.java)
-    private val spUtils = SPUtils(SPName.USER)
     var isLoading = mutableStateOf(false)
     var total = mutableStateOf(0)
     var limit = 100
@@ -33,8 +31,8 @@ class DocumentViewModel : ViewModel() {
         onFailure: (msg: String) -> Unit = {}
     ) {
         isLoading.value = true
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.getDocuments(username, token, page, limit)
             .enqueue(object : Callback<AjaxResult<DocumentPage>> {
                 override fun onResponse(
@@ -74,8 +72,8 @@ class DocumentViewModel : ViewModel() {
         onSuccess: () -> Unit = {},
         onFailure: (msg: String) -> Unit = {}
     ) {
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.deleteDocument(
             username = username,
             token = token,

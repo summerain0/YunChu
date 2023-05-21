@@ -5,15 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.cxoip.yunchu.http.ServiceCreator
 import com.cxoip.yunchu.http.model.AjaxResult
 import com.cxoip.yunchu.http.service.DocumentService
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CreateDocumentViewModel : ViewModel() {
     private val documentService = ServiceCreator.create(DocumentService::class.java)
-    private val spUtils = SPUtils(SPName.USER)
 
     fun createDocument(
         title: String,
@@ -24,8 +22,8 @@ class CreateDocumentViewModel : ViewModel() {
         onSuccess: () -> Unit = {},
         onFailure: (msg: String) -> Unit = {}
     ) {
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.createDocument(
             username = username,
             token = token,

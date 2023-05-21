@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.cxoip.yunchu.Destinations
 import com.cxoip.yunchu.MyApplication
 import com.cxoip.yunchu.R
+import com.cxoip.yunchu.util.UserUtils
 import com.cxoip.yunchu.viewmodel.SignInViewModel
 import kotlinx.coroutines.launch
 
@@ -77,7 +78,7 @@ fun SignInScreen(
         ) {
             item {
                 var userAccount by remember { mutableStateOf(account ?: "") }
-                var userPassword by remember { mutableStateOf(viewModel.getPasswordFromPreference()) }
+                var userPassword by remember { mutableStateOf(UserUtils.getPassword()) }
                 var isLoading by remember { mutableStateOf(false) }
                 var isShowPassword by remember { mutableStateOf(false) }
                 val focusManager = LocalFocusManager.current

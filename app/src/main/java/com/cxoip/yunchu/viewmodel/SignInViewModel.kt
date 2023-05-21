@@ -10,15 +10,14 @@ import com.cxoip.yunchu.http.model.UserToken
 import com.cxoip.yunchu.http.service.UserService
 import com.cxoip.yunchu.http.util.ResponseCode
 import com.cxoip.yunchu.util.Constants
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SignInViewModel : ViewModel() {
     private val userService = ServiceCreator.create(UserService::class.java)
-    private val userSPUtils = SPUtils(SPName.USER)
+
 
     fun login(
         account: String,
@@ -51,13 +50,12 @@ class SignInViewModel : ViewModel() {
                     } else {
                         val state = ajax.state
                         if (state == ResponseCode.SUCCESS) {
-                            val data = ajax.data
                             if (ajax.data == null) {
                                 onFailure("data is null")
                             } else {
-                                saveUsernameToPreference(username)
-                                savePasswordToPreference(password)
-                                saveTokenToPreference(ajax.data!!.token)
+                                UserUtils.setUsername(username)
+                                UserUtils.setPassword(password)
+                                UserUtils.setToken(ajax.data!!.token)
                                 onSuccess(ajax.data!!)
                             }
                         } else {
@@ -81,23 +79,6 @@ class SignInViewModel : ViewModel() {
         // 接口还不能用
         onFailure(MyApplication.getInstance().getString(R.string.currently_suspended_email_login))
     }
-
-    private fun saveUsernameToPreference(username: String) {
-        userSPUtils.putString("username", username)
-    }
-
-    private fun savePasswordToPreference(password: String) {
-        userSPUtils.putString("password", password)
-    }
-
-    private fun saveTokenToPreference(token: String) {
-        userSPUtils.putString("token", token)
-    }
-
-    fun getUsernameFromPreference() = userSPUtils.getString("username", "")!!
-
-    fun getPasswordFromPreference() = userSPUtils.getString("password", "")!!
-
 }
 
 class SignInViewModelFactory : ViewModelProvider.Factory {

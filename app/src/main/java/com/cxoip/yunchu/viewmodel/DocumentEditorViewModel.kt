@@ -6,8 +6,7 @@ import com.cxoip.yunchu.http.ServiceCreator
 import com.cxoip.yunchu.http.model.AjaxResult
 import com.cxoip.yunchu.http.model.DocumentDetails
 import com.cxoip.yunchu.http.service.DocumentService
-import com.cxoip.yunchu.util.SPName
-import com.cxoip.yunchu.util.SPUtils
+import com.cxoip.yunchu.util.UserUtils
 import com.elvishew.xlog.XLog
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -17,15 +16,14 @@ import retrofit2.Response
 
 class DocumentEditorViewModel : ViewModel() {
     private val documentService = ServiceCreator.create(DocumentService::class.java)
-    private val spUtils = SPUtils(SPName.USER)
 
     fun getDocumentDetails(
         id: Int,
         onSuccess: (documentDetails: DocumentDetails) -> Unit = {},
         onFailure: (msg: String) -> Unit = {}
     ) {
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.getDocumentDetails(username, token, id)
             .enqueue(object : Callback<AjaxResult<DocumentDetails>> {
                 override fun onResponse(
@@ -65,8 +63,8 @@ class DocumentEditorViewModel : ViewModel() {
             onFailure("document is null")
             return
         }
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.updateDocument(
             username = username,
             token = token,
@@ -105,8 +103,8 @@ class DocumentEditorViewModel : ViewModel() {
         onSuccess: (newKey: String) -> Unit = {},
         onFailure: (msg: String) -> Unit = {}
     ) {
-        val username = spUtils.getString("username", "")!!
-        val token = spUtils.getString("token", "")!!
+        val username = UserUtils.getUsername()
+        val token = UserUtils.getToken()
         documentService.updateDocumentKey(
             username = username,
             token = token,
