@@ -116,7 +116,13 @@ fun YunChuNavHost(navController: NavHostController, startDestination: String) {
 
         composable(
             route = ABOUT_ROUTE,
-            enterTransition = { slideIntoContainerLeft() },
+            enterTransition = {
+                when (initialState.destination.route) {
+                    WEB_ROUTE -> slideIntoContainerLeft()
+                    OPEN_SOURCE_LICENSE_ROUTE -> slideIntoContainerLeft()
+                    else -> null
+                }
+            },
             exitTransition = { slideIntoContainerRight() }
         ) {
             AboutRoute()
