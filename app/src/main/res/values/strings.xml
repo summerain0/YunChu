@@ -114,5 +114,6 @@
     <string name="exiting_document_editing_dialog_content">确定不保存文档直接退出吗？</string>
     <string name="document_save_success">文档保存成功</string>
     <string name="document_key_updated">文档密钥已更新</string>
+    <string name="app_update_dialog_title">发现新版本(%s)</string>
     <string name="document_details_content_format">文档ID：%d\n修改次数：%d次\n浏览次数：%d次\nHTML文档：%s\n私密文档：%s\n文档密码：%s\n文档密钥：%s\n更新时间：%s\n创建时间：%s</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.cxoip.yunchu.http
 
 import android.util.Log
+import com.cxoip.yunchu.http.service.GithubApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,9 +22,19 @@ object ServiceCreator {
         .addInterceptor(logInterceptor)
         .build()
 
+    private val okhttpClientGithub = OkHttpClient.Builder()
+        .addInterceptor(logInterceptor)
+        .build()
+
     private val retrofit = Retrofit.Builder()
         .client(okhttpClient)
         .baseUrl("https://wd.cn.ecsxs.com/api/v1/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val retrofitGithub = Retrofit.Builder()
+        .client(okhttpClientGithub)
+        .baseUrl("https://api.github.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -32,4 +43,7 @@ object ServiceCreator {
     }
 
     fun <T> create(cls: Class<T>): T = retrofit.create(cls)
+
+    fun createGithubApiService(): GithubApiService =
+        retrofitGithub.create(GithubApiService::class.java)
 }

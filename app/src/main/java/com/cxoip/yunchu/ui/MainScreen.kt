@@ -1,5 +1,7 @@
 package com.cxoip.yunchu.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -20,6 +23,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -70,6 +74,7 @@ fun MainScreen(viewModel: MainViewModel) {
     val hostState = remember { SnackbarHostState() }
     val selectedIndex = rememberSaveable { mutableStateOf(0) }
     val isDisplayDocumentDetail = viewModel.isDisplayDocumentDetail
+
     BackHandler {
         scope.launch {
             val result = hostState.showSnackbar(
@@ -83,6 +88,47 @@ fun MainScreen(viewModel: MainViewModel) {
             }
         }
     }
+
+    if (viewModel.isDisplayAppUpdateDialog.value) {
+        AlertDialog(
+            onDismissRequest = { viewModel.isDisplayAppUpdateDialog.value = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.isDisplayAppUpdateDialog.value = false
+                        val context = MyApplication.getInstance()
+                        val uri = Uri.parse(viewModel.newAppDownloadUrl.value)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.update))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.isDisplayAppUpdateDialog.value = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = {
+                Text(
+                    text = stringResource(
+                        id = R.string.app_update_dialog_title,
+                        formatArgs = arrayOf(viewModel.newAppVersionName.value)
+                    )
+                )
+            },
+            text = {
+                Text(text = viewModel.newAppUpdateMessage.value)
+            }
+        )
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(hostState) },
         topBar = {
