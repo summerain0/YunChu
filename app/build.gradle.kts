@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
-val versionNamePrefix = "4.0.1"
+val versionNamePrefix = "4.0.2"
 
 val gitCommitCount by lazy {
     "git rev-list --count HEAD".runCommand().trim().toInt()
