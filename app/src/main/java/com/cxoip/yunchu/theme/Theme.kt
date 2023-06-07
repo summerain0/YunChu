@@ -2,6 +2,7 @@ package com.cxoip.yunchu.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -84,7 +85,7 @@ private val darkColorScheme = darkColorScheme(
 
 @Composable
 fun YunChuTheme(
-    darkTheme: Boolean = false/*isSystemInDarkTheme()*/,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
