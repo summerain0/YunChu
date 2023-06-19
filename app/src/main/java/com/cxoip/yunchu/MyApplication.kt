@@ -7,6 +7,7 @@ import com.cxoip.yunchu.util.CrashHandler
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,6 +27,7 @@ class MyApplication : Application() {
         super.onCreate()
         instance = this
         CrashHandler.instance.init(instance)
+        CrashReport.initCrashReport(instance, "de6a1f241b", false)
         XLog.init(
             LogConfiguration.Builder()
                 .logLevel(LogLevel.ALL)

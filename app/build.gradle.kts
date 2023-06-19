@@ -150,6 +150,7 @@ dependencies {
 
     implementation(libs.zxing.core)
     implementation(libs.xLog)
+    implementation(libs.bugly)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
