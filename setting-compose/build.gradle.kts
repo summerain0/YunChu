@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.alorma.compose.settings"
-    compileSdk = 33
+    compileSdk = Versions.compileSdkVersion
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -25,7 +25,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
     }
 }
 

@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
-val versionNamePrefix = "4.0.2"
+val versionNamePrefix = Versions.versionName
 
 val gitCommitCount by lazy {
     "git rev-list --count HEAD".runCommand().trim().toInt()
@@ -33,8 +33,8 @@ fun String.runCommand(): String {
 
 android {
     namespace = "com.cxoip.yunchu"
-    compileSdk = 33
-    ndkVersion = "25.2.9519653"
+    compileSdk = Versions.compileSdkVersion
+    ndkVersion = Versions.ndkVersion
 
     signingConfigs {
         create("debugSigning") {
@@ -59,8 +59,8 @@ android {
 
     defaultConfig {
         applicationId = "com.cxoip.yunchu"
-        minSdk = 21
-        targetSdk = 33
+        minSdk = Versions.minSdkVersion
+        targetSdk = Versions.targetSdkVersion
         versionCode = appVersionCode
         versionName = appVersionName
         multiDexEnabled = true
@@ -100,7 +100,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
     }
 
     packagingOptions.resources.excludes.add("DebugProbesKt.bin")

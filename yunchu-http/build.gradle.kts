@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.cxoip.yunchu.http"
-    compileSdk = 33
+    compileSdk = Versions.compileSdkVersion
 
     defaultConfig {
-        minSdk = 21
+        minSdk = Versions.minSdkVersion
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }

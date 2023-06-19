@@ -1,9 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":yunchu-http")
-
-
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -17,6 +15,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "YunChu"
 include(":app")
 include(":setting-compose")
+include(":yunchu-http")
