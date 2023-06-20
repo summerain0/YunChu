@@ -1,6 +1,6 @@
 @SuppressWarnings("unused")
 object Versions {
-    const val versionName = "4.0.2"
+    const val versionName = "4.1.0"
     const val compileSdkVersion = 33
     const val minSdkVersion = 21
     const val targetSdkVersion = 33
