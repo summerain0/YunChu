@@ -17,7 +17,7 @@ splashscreen-compose = "1.0.1"
 constraintlayout-compose = "1.0.1"
 appcompat = "1.6.1"
 collection-ktx = "1.2.0"
-paging-compose = "3.2.0-beta01"
+paging-compose = "3.2.0-rc01"
 # Other
 accompanist = "0.30.1"
 sora-editor = "0.21.1"
