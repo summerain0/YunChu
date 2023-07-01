@@ -68,7 +68,7 @@ class SignUpViewModel : ViewModel() {
     private var pageIndex = 0
 
     // 是否可以进行下一步
-    private val _isNextEnabled = mutableStateOf(true)
+    private val _isNextEnabled = mutableStateOf(false)
     val isNextEnabled: Boolean
         get() = _isNextEnabled.value
 
@@ -76,6 +76,10 @@ class SignUpViewModel : ViewModel() {
     private val _signUpScreenData = mutableStateOf(createSignUpScreenData())
     val signUpScreenData: SignUpScreenData
         get() = _signUpScreenData.value
+
+    fun isEnableEnabled(enabled: Boolean) {
+        _isNextEnabled.value = enabled
+    }
 
     // 执行上一步事件
     fun onPreviousPressed() {
