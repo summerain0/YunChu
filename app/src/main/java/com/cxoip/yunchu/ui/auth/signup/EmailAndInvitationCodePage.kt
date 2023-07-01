@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -30,25 +31,19 @@ import com.cxoip.yunchu.util.Constants
 import com.cxoip.yunchu.util.TextFieldState
 import com.cxoip.yunchu.viewmodel.SignUpViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailAndInvitationCodePage(
-    modifier: Modifier,
-    viewModel: SignUpViewModel,
-    onNextEnabledListener: (Boolean) -> Unit
-) {
+fun EmailAndInvitationCodePage(modifier: Modifier, viewModel: SignUpViewModel) {
     val emailState = remember {
         TextFieldState(
             textDefault = viewModel.userEmail,
             validator = {
                 if (it.isBlank()) {
-                    onNextEnabledListener(false)
                     MyApplication.getInstance().getString(R.string.please_enter_email_address)
                 } else if (!it.matches(Constants.REGEX_EMAIL)) {
-                    onNextEnabledListener(false)
                     MyApplication.getInstance()
                         .getString(R.string.please_enter_valid_email_address)
                 } else {
-                    onNextEnabledListener(true)
                     null
                 }
             }
@@ -56,17 +51,11 @@ fun EmailAndInvitationCodePage(
     }
     val invitationCodeState = remember {
         TextFieldState(
-            textDefault = viewModel.userInvitationCode,
+            textDefault = viewModel.userEmail,
             validator = {
                 if (it.isBlank()) {
-                    onNextEnabledListener(false)
                     MyApplication.getInstance().getString(R.string.please_enter_invitation_code)
-                } else if (!it.matches(Constants.REGEX_INVITATION_CODE)) {
-                    onNextEnabledListener(false)
-                    MyApplication.getInstance()
-                        .getString(R.string.please_enter_valid_invitation_code)
                 } else {
-                    onNextEnabledListener(true)
                     null
                 }
             }

@@ -98,7 +98,6 @@
     <string name="please_enter_document_content">请输入文档内容</string>
     <string name="please_enter_email_address">请输入邮箱地址</string>
     <string name="please_enter_valid_email_address">请输入合法的邮箱地址</string>
-    <string name="please_enter_valid_invitation_code">请输入合法的邀请码</string>
     <string name="please_enter_invitation_code">请输入邀请码</string>
     <string name="please_enter_username">请输入用户名</string>
     <string name="please_enter_password">请输入密码</string>

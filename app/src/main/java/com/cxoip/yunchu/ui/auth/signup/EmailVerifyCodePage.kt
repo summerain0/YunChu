@@ -2,6 +2,7 @@ package com.cxoip.yunchu.ui.auth.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -16,12 +17,9 @@ import com.cxoip.yunchu.R
 import com.cxoip.yunchu.util.TextFieldState
 import com.cxoip.yunchu.viewmodel.SignUpViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailVerifyCodePage(
-    modifier: Modifier,
-    viewModel: SignUpViewModel,
-    onNextEnabledListener: (Boolean) -> Unit
-) {
+fun EmailVerifyCodePage(modifier: Modifier, viewModel: SignUpViewModel) {
     val emailVerifyCodeState = remember {
         TextFieldState(
             textDefault = viewModel.emailVerifyCode,

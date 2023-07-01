@@ -107,7 +107,7 @@ fun AppTopBar(signUpScreenData: SignUpScreenData) {
         val animatedProgress by animateFloatAsState(
             targetValue = (signUpScreenData.pageIndex + 1).toFloat() / signUpScreenData.pageCount.toFloat(),
             animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-            label = "SignUp Progress"
+            label = "WebView Progress"
         )
         LinearProgressIndicator(
             progress = animatedProgress,
@@ -124,9 +124,6 @@ fun AppContent(
     signUpScreenData: SignUpScreenData,
     viewModel: SignUpViewModel
 ) {
-    // 用于收取子页面返回是否可下一步
-    val onNextEnabledListener = { enabled: Boolean -> viewModel.isEnableEnabled(enabled) }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -155,22 +152,17 @@ fun AppContent(
 
             when (targetState.page) {
                 SignUpPage.EMAIL_AND_INVITATION_CODE ->
-                    EmailAndInvitationCodePage(modifier, viewModel, onNextEnabledListener)
+                    EmailAndInvitationCodePage(modifier, viewModel)
 
-                SignUpPage.VERIFY_CODE ->
-                    VerifyCodePage(modifier, viewModel)
+                SignUpPage.VERIFY_CODE -> VerifyCodePage(modifier, viewModel)
 
-                SignUpPage.EMAIL_VERIFY_CODE ->
-                    EmailVerifyCodePage(modifier, viewModel)
+                SignUpPage.EMAIL_VERIFY_CODE -> EmailVerifyCodePage(modifier, viewModel)
 
-                SignUpPage.USERNAME ->
-                    UsernamePage(modifier, viewModel)
+                SignUpPage.USERNAME -> UsernamePage(modifier, viewModel)
 
-                SignUpPage.PASSWORD ->
-                    PasswordPage(modifier, viewModel)
+                SignUpPage.PASSWORD -> PasswordPage(modifier, viewModel)
 
-                SignUpPage.CONFIRM_PASSWORD ->
-                    ConfirmPasswordPage(modifier, viewModel)
+                SignUpPage.CONFIRM_PASSWORD -> ConfirmPasswordPage(modifier, viewModel)
             }
         }
     }
