@@ -1,7 +1,7 @@
 [versions]
 android = "8.2.0-alpha09"
 # Kotlin
-org-jetbrains-kotlin-android = "1.8.21"
+org-jetbrains-kotlin-android = "1.9.0"
 core-ktx = "1.10.1"
 # Test
 junit = "4.13.2"
