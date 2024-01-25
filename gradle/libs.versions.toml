@@ -19,7 +19,7 @@ appcompat = "1.6.1"
 collection-ktx = "1.2.0"
 paging-compose = "3.2.0-rc01"
 # Other
-accompanist = "0.30.1"
+accompanist = "0.34.0"
 sora-editor = "0.22.2"
 camera2 = "1.2.3"
 zxing = "3.5.2"
